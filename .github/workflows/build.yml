@@ -4,6 +4,10 @@ on:
   push:
     branches: [main]
 
+env:
+  ANDROID_COMPILE_SDK: "34"
+  ANDROID_BUILD_TOOLS: "34.0.0"
+
 jobs:
   build-apk:
     name: Build Android APK
@@ -17,14 +21,20 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Setup Android SDK
-        uses: android-actions/setup-android@v3
-        env:
-          ACTIONS_ALLOW_UNSECURE_NODE_VERSION: true
-
-      - name: Install build tools
+      - name: Install Android SDK manually
         run: |
-          sdkmanager "build-tools;34.0.0" "platforms;android-34"
+          wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip -O cmdtools.zip
+          mkdir -p $HOME/android-sdk/cmdline-tools
+          unzip -q cmdtools.zip -d $HOME/android-sdk/cmdline-tools
+          mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
+          export ANDROID_HOME=$HOME/android-sdk
+          export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
+          yes | sdkmanager --licenses > /dev/null 2>&1
+          sdkmanager "platforms;android-34" "build-tools;34.0.0"
+          echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
+          echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
+          echo "$HOME/android-sdk/platform-tools" >> $GITHUB_PATH
+          echo "$HOME/android-sdk/build-tools/34.0.0" >> $GITHUB_PATH
 
       - name: Create project structure
         run: |
@@ -39,10 +49,16 @@ jobs:
           mkdir -p android/app/src/main/res/mipmap-xxxhdpi
           mkdir -p android/gradle/wrapper
 
-      - name: Copy web app
-        run: cp index.html android/app/src/main/assets/www/index.html
+      - name: Copy web app and icons
+        run: |
+          cp index.html android/app/src/main/assets/www/index.html
+          cp icon-72.png  android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          cp icon-72.png  android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          cp icon-96.png  android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          cp icon-144.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          cp icon-192.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
-      - name: Write AndroidManifest.xml
+      - name: Write Android source files
         run: |
           cat > android/app/src/main/AndroidManifest.xml << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
@@ -68,8 +84,6 @@ jobs:
           </manifest>
           EOF
 
-      - name: Write MainActivity.java
-        run: |
           cat > android/app/src/main/java/com/basicenglish/app/MainActivity.java << 'EOF'
           package com.basicenglish.app;
           import android.annotation.SuppressLint;
@@ -102,8 +116,6 @@ jobs:
           }
           EOF
 
-      - name: Write layout
-        run: |
           cat > android/app/src/main/res/layout/activity_main.xml << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -113,10 +125,9 @@ jobs:
           </RelativeLayout>
           EOF
 
-      - name: Write strings and styles
-        run: |
           echo '<resources><string name="app_name">Basic English</string></resources>' \
             > android/app/src/main/res/values/strings.xml
+
           cat > android/app/src/main/res/values/styles.xml << 'EOF'
           <?xml version="1.0" encoding="utf-8"?>
           <resources>
@@ -125,14 +136,6 @@ jobs:
             </style>
           </resources>
           EOF
-
-      - name: Copy icons
-        run: |
-          cp icon-72.png  android/app/src/main/res/mipmap-hdpi/ic_launcher.png
-          cp icon-72.png  android/app/src/main/res/mipmap-mdpi/ic_launcher.png
-          cp icon-96.png  android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
-          cp icon-144.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
-          cp icon-192.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
       - name: Write Gradle files
         run: |
@@ -172,7 +175,7 @@ jobs:
               versionName "1.0"
             }
             buildTypes {
-              release { minifyEnabled false }
+              debug { debuggable true }
             }
             compileOptions {
               sourceCompatibility JavaVersion.VERSION_17
@@ -184,9 +187,6 @@ jobs:
           }
           EOF
 
-      - name: Write Gradle wrapper
-        run: |
-          mkdir -p android/gradle/wrapper
           cat > android/gradle/wrapper/gradle-wrapper.properties << 'EOF'
           distributionBase=GRADLE_USER_HOME
           distributionPath=wrapper/dists
@@ -195,16 +195,13 @@ jobs:
           zipStorePath=wrapper/dists
           EOF
 
-          curl -sL https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradle/wrapper/gradle-wrapper.jar \
-            -o android/gradle/wrapper/gradle-wrapper.jar
-
-          curl -sL https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradlew \
-            -o android/gradlew
+          wget -q https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradlew \
+            -O android/gradlew
           chmod +x android/gradlew
 
       - name: Build debug APK
         working-directory: android
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleDebug --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
