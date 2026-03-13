@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Basic English for Adults – 100 Lessons</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1a2e;
+    --paper: #faf8f3;
+    --cream: #f0ebe0;
+    --gold: #c9a84c;
+    --gold-light: #e8d5a3;
+    --teal: #2a7f7f;
+    --teal-light: #e8f5f5;
+    --coral: #e05c4b;
+    --coral-light: #fdecea;
+    --sage: #5a7a5a;
+    --sage-light: #edf3ed;
+    --purple: #6b4e9e;
+    --purple-light: #f0eaf8;
+    --locked: #b0aaa0;
+    --locked-bg: #f5f3ef;
+    --shadow: 0 4px 24px rgba(26,26,46,0.10);
+    --shadow-lg: 0 12px 48px rgba(26,26,46,0.16);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+  }
+  .header-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 18px 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: var(--gold);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+    cursor: pointer;
+  }
+  .logo span { color: var(--paper); }
+  .progress-bar-wrap {
+    flex: 1;
+    background: rgba(255,255,255,0.12);
+    border-radius: 99px;
+    height: 8px;
+    overflow: hidden;
+    max-width: 320px;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), #f5d576);
+    border-radius: 99px;
+    transition: width 0.6s cubic-bezier(0.4,0,0.2,1);
+  }
+  .progress-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--gold-light);
+    white-space: nowrap;
+  }
+  .btn-home {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+  .btn-home:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* ─── LAYOUT ─── */
+  .app { max-width: 1400px; margin: 0 auto; }
+
+  /* ─── HOME VIEW ─── */
+  #home-view { display: block; }
+  #lesson-view { display: none; }
+
+  .hero {
+    padding: 64px 32px 40px;
+    text-align: center;
+    position: relative;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: 12px;
+  }
+  .hero h1 em { color: var(--gold); font-style: normal; }
+  .hero p { font-size: 1.1rem; color: #666; max-width: 520px; margin: 0 auto 28px; font-weight: 300; }
+  .stats-row {
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 48px;
+  }
+  .stat-chip {
+    background: var(--ink);
+    color: var(--paper);
+    border-radius: 99px;
+    padding: 8px 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .stat-chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); }
+
+  /* ─── LESSON GRID ─── */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.4rem;
+    font-weight: 700;
+    padding: 0 32px 16px;
+    color: var(--ink);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-title::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--cream);
+    margin-left: 8px;
+  }
+
+  .lessons-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 14px;
+    padding: 0 32px 64px;
+  }
+
+  .lesson-card {
+    border-radius: 16px;
+    padding: 20px 16px;
+    cursor: pointer;
+    transition: all 0.25s cubic-bezier(0.4,0,0.2,1);
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .lesson-card:hover:not(.locked) {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+  .lesson-card:active:not(.locked) { transform: translateY(-1px); }
+
+  .lesson-card.unlocked {
+    background: white;
+    border-color: #e8e3d8;
+    box-shadow: var(--shadow);
+  }
+  .lesson-card.completed {
+    background: linear-gradient(135deg, #f0faf0 0%, #e8f5e8 100%);
+    border-color: #b8ddb8;
+    box-shadow: 0 4px 16px rgba(90,122,90,0.15);
+  }
+  .lesson-card.locked {
+    background: var(--locked-bg);
+    border-color: #e0dbd0;
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+  .lesson-card.active {
+    background: linear-gradient(135deg, #fff9e8 0%, #fef3cc 100%);
+    border-color: var(--gold);
+    box-shadow: 0 4px 20px rgba(201,168,76,0.25);
+  }
+
+  .card-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+  .lesson-card.unlocked .card-num { color: var(--teal); }
+  .lesson-card.completed .card-num { color: var(--sage); }
+  .lesson-card.locked .card-num { color: var(--locked); }
+  .lesson-card.active .card-num { color: var(--gold); }
+
+  .card-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1.3;
+    flex: 1;
+    margin-bottom: 10px;
+  }
+  .lesson-card.locked .card-title { color: var(--locked); }
+
+  .card-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.72rem;
+    font-weight: 500;
+  }
+  .status-icon { font-size: 0.9rem; }
+
+  .card-badge {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.65rem;
+  }
+  .badge-check { background: var(--sage); color: white; }
+  .badge-lock { background: #d0cac0; color: white; }
+  .badge-star { background: var(--gold); color: white; }
+
+  /* ─── LESSON VIEW ─── */
+  .lesson-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: calc(100vh - 65px);
+  }
+
+  /* sidebar */
+  .sidebar {
+    background: var(--ink);
+    color: var(--paper);
+    padding: 28px 0;
+    position: sticky;
+    top: 65px;
+    height: calc(100vh - 65px);
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255,255,255,0.2) transparent;
+  }
+  .sidebar::-webkit-scrollbar { width: 4px; }
+  .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+  .sidebar-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    color: var(--gold);
+    padding: 0 20px 16px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 12px;
+  }
+
+  .sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border-left: 3px solid transparent;
+    font-size: 0.82rem;
+    line-height: 1.3;
+  }
+  .sidebar-item:hover:not(.si-locked) { background: rgba(255,255,255,0.06); }
+  .sidebar-item.si-active {
+    background: rgba(201,168,76,0.15);
+    border-left-color: var(--gold);
+    color: var(--gold-light);
+  }
+  .sidebar-item.si-completed { color: #90c090; }
+  .sidebar-item.si-locked { color: rgba(255,255,255,0.3); cursor: not-allowed; }
+  .sidebar-item.si-unlocked { color: var(--paper); }
+  .si-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    min-width: 26px;
+    color: inherit;
+    opacity: 0.7;
+  }
+  .si-icon { font-size: 0.75rem; min-width: 14px; }
+
+  /* main content */
+  .lesson-main {
+    padding: 40px 48px;
+    max-width: 820px;
+  }
+
+  .lesson-header {
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 2px solid var(--cream);
+  }
+  .lesson-num-tag {
+    display: inline-block;
+    background: var(--ink);
+    color: var(--gold);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    padding: 5px 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .lesson-title-main {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: 8px;
+  }
+  .lesson-subtitle { color: #888; font-size: 0.9rem; font-weight: 300; }
+
+  /* section cards */
+  .section-card {
+    background: white;
+    border-radius: 20px;
+    padding: 28px 32px;
+    margin-bottom: 24px;
+    border: 1px solid #eee;
+    box-shadow: var(--shadow);
+    animation: fadeUp 0.4s ease both;
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .section-card:nth-child(1) { animation-delay: 0.05s; }
+  .section-card:nth-child(2) { animation-delay: 0.10s; }
+  .section-card:nth-child(3) { animation-delay: 0.15s; }
+  .section-card:nth-child(4) { animation-delay: 0.20s; }
+  .section-card:nth-child(5) { animation-delay: 0.25s; }
+
+  .sc-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 18px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .sc-title .sc-icon {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  /* words grid */
+  .words-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .word-chip {
+    background: var(--teal-light);
+    color: var(--teal);
+    border: 1.5px solid #b8dede;
+    border-radius: 99px;
+    padding: 6px 16px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    transition: all 0.2s;
+    cursor: default;
+  }
+  .word-chip:hover {
+    background: var(--teal);
+    color: white;
+    transform: scale(1.04);
+  }
+
+  /* sentence patterns */
+  .pattern-list { list-style: none; }
+  .pattern-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px dashed #f0ebe0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+  .pattern-item:last-child { border-bottom: none; }
+  .pattern-bullet {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--gold);
+    margin-top: 8px;
+    flex-shrink: 0;
+  }
+
+  /* conversation */
+  .conv-wrap { display: flex; flex-direction: column; gap: 10px; }
+  .conv-line {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .conv-speaker {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .speaker-a { background: var(--purple-light); color: var(--purple); }
+  .speaker-b { background: var(--coral-light); color: var(--coral); }
+  .conv-text {
+    background: var(--cream);
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    flex: 1;
+  }
+
+  /* practice */
+  .practice-list { display: flex; flex-direction: column; gap: 10px; }
+  .practice-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--sage-light);
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    border-left: 3px solid var(--sage);
+  }
+  .practice-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--sage);
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ─── MCQ ─── */
+  .mcq-intro {
+    background: linear-gradient(135deg, #1a1a2e 0%, #2a2a4e 100%);
+    border-radius: 16px;
+    padding: 20px 24px;
+    color: var(--paper);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .mcq-intro-icon { font-size: 2rem; }
+  .mcq-intro-text h4 { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--gold); margin-bottom: 4px; }
+  .mcq-intro-text p { font-size: 0.82rem; color: rgba(255,255,255,0.65); }
+
+  .mcq-question {
+    background: white;
+    border: 1.5px solid #eee;
+    border-radius: 16px;
+    padding: 20px 24px;
+    margin-bottom: 14px;
+    transition: all 0.3s;
+  }
+  .mcq-question.correct { border-color: var(--sage); background: #f0faf0; }
+  .mcq-question.wrong { border-color: var(--coral); background: #fef0ee; }
+
+  .mcq-q-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 14px;
+    line-height: 1.4;
+    display: flex;
+    gap: 10px;
+  }
+  .mcq-qnum {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    background: var(--ink);
+    color: var(--gold);
+    padding: 2px 8px;
+    border-radius: 5px;
+    flex-shrink: 0;
+    height: fit-content;
+    margin-top: 1px;
+  }
+  .mcq-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .mcq-option {
+    border: 1.5px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 14px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    text-align: left;
+    font-family: 'DM Sans', sans-serif;
+    line-height: 1.4;
+  }
+  .mcq-option:hover:not(:disabled) {
+    border-color: var(--gold);
+    background: var(--cream);
+    transform: translateX(2px);
+  }
+  .mcq-option:disabled { cursor: default; }
+  .mcq-option.opt-correct { border-color: var(--sage); background: #e8f5e8; color: var(--sage); font-weight: 600; }
+  .mcq-option.opt-wrong { border-color: var(--coral); background: #fdecea; color: var(--coral); }
+  .mcq-option.opt-reveal { border-color: var(--sage); background: #f0faf0; color: var(--sage); }
+  .opt-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: #f0ebe0;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+    transition: all 0.2s;
+  }
+  .mcq-option.opt-correct .opt-label { background: var(--sage); color: white; }
+  .mcq-option.opt-wrong .opt-label { background: var(--coral); color: white; }
+  .mcq-option.opt-reveal .opt-label { background: var(--sage); color: white; }
+
+  .mcq-result-msg {
+    padding: 8px 14px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 500;
+    margin-top: 10px;
+    display: none;
+  }
+  .mcq-result-msg.show { display: block; }
+  .mcq-result-msg.msg-correct { background: #e8f5e8; color: var(--sage); }
+  .mcq-result-msg.msg-wrong { background: #fdecea; color: var(--coral); }
+
+  /* MCQ score panel */
+  .mcq-score-panel {
+    border-radius: 20px;
+    padding: 28px;
+    text-align: center;
+    margin-top: 24px;
+    display: none;
+    animation: popIn 0.4s cubic-bezier(0.34,1.56,0.64,1) both;
+  }
+  @keyframes popIn {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+  }
+  .mcq-score-panel.show { display: block; }
+  .mcq-score-panel.pass { background: linear-gradient(135deg, #e8f5e8, #d0ecd0); border: 2px solid #90c090; }
+  .mcq-score-panel.fail { background: linear-gradient(135deg, #fdecea, #f9d8d5); border: 2px solid #e09080; }
+  .score-emoji { font-size: 3rem; margin-bottom: 12px; }
+  .score-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 8px; }
+  .score-nums { font-size: 1rem; margin-bottom: 4px; }
+  .score-nums strong { font-size: 2rem; font-family: 'DM Mono', monospace; }
+  .score-msg { font-size: 0.9rem; color: #555; margin: 12px 0 20px; }
+  .btn-retry, .btn-next {
+    border: none;
+    border-radius: 12px;
+    padding: 12px 28px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    margin: 4px;
+  }
+  .btn-retry { background: var(--ink); color: var(--paper); }
+  .btn-retry:hover { background: #2a2a4e; transform: translateY(-2px); }
+  .btn-next { background: var(--gold); color: var(--ink); }
+  .btn-next:hover { background: #b8973a; transform: translateY(-2px); }
+
+  /* nav buttons */
+  .lesson-nav {
+    display: flex;
+    gap: 12px;
+    padding: 0 0 24px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+  .btn-nav {
+    border: 2px solid var(--ink);
+    background: transparent;
+    color: var(--ink);
+    border-radius: 10px;
+    padding: 10px 22px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn-nav:hover { background: var(--ink); color: var(--paper); }
+  .btn-nav.primary { background: var(--ink); color: var(--paper); }
+  .btn-nav.primary:hover { background: #2a2a4e; }
+  .btn-nav:disabled { opacity: 0.4; cursor: not-allowed; }
+  .btn-nav:disabled:hover { background: transparent; color: var(--ink); }
+
+  /* locked overlay */
+  .locked-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(26,26,46,0.7);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    display: none;
+  }
+  .locked-overlay.show { display: flex; }
+  .locked-box {
+    background: var(--paper);
+    border-radius: 24px;
+    padding: 48px 40px;
+    max-width: 420px;
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    animation: popIn 0.3s ease both;
+  }
+  .locked-box .lock-emoji { font-size: 3.5rem; margin-bottom: 16px; }
+  .locked-box h3 { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; }
+  .locked-box p { color: #666; font-size: 0.95rem; line-height: 1.6; margin-bottom: 24px; }
+  .btn-got-it {
+    background: var(--gold);
+    color: var(--ink);
+    border: none;
+    padding: 12px 32px;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .btn-got-it:hover { background: #b8973a; transform: translateY(-2px); }
+
+  /* completion banner */
+  .completion-banner {
+    background: linear-gradient(135deg, var(--ink) 0%, #2a2a4e 100%);
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+    margin: 0 32px 48px;
+    color: var(--paper);
+    display: none;
+  }
+  .completion-banner.show { display: block; animation: fadeUp 0.6s ease both; }
+  .completion-banner h2 { font-family: 'Playfair Display', serif; font-size: 1.8rem; color: var(--gold); margin-bottom: 10px; }
+  .completion-banner p { color: rgba(255,255,255,0.75); font-size: 0.95rem; }
+
+  @media (max-width: 900px) {
+    .lesson-layout { grid-template-columns: 1fr; }
+    .sidebar { position: fixed; left: -300px; top: 65px; width: 280px; height: calc(100vh - 65px); transition: left 0.3s ease; z-index: 50; }
+    .sidebar.open { left: 0; }
+    .lesson-main { padding: 24px 20px; }
+    .mcq-options { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 600px) {
+    .hero { padding: 36px 20px 24px; }
+    .lessons-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); padding: 0 16px 48px; }
+    .section-title { padding: 0 16px 12px; }
+    .header-inner { padding: 14px 16px; }
+    .progress-bar-wrap { max-width: 120px; }
+    .lesson-main { padding: 20px 16px; }
+  }
+</style>
+
+  <!-- PWA -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#1A1A2E">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="BasicEnglish">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').catch(() => {});
+      });
+    }
+  </script>
+</head>
+<body>
+
+<header>
+  <div class="header-inner">
+    <div class="logo" onclick="goHome()">📖 Basic<span>English</span></div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar-fill" id="prog-fill" style="width:0%"></div>
+    </div>
+    <div class="progress-text" id="prog-text">0 / 100</div>
+    <button class="btn-home" onclick="goHome()">📚 All Lessons</button>
+  </div>
+</header>
+
+<div class="app">
+  <!-- HOME -->
+  <div id="home-view">
+    <div class="hero">
+      <h1>Learn <em>English</em><br>Step by Step</h1>
+      <p>100 structured lessons for adult beginners. Master new words, phrases, conversations, and more.</p>
+      <div class="stats-row">
+        <div class="stat-chip"><span class="dot"></span>100 Lessons</div>
+        <div class="stat-chip"><span class="dot"></span>500+ New Words</div>
+        <div class="stat-chip"><span class="dot"></span>Quiz-Gated Progress</div>
+      </div>
+    </div>
+    <div id="completion-banner" class="completion-banner">
+      <h2>🎓 Congratulations!</h2>
+      <p>You have completed all 100 lessons of Basic English for Adults. You are amazing!</p>
+    </div>
+    <div class="section-title">📚 Your Lessons</div>
+    <div class="lessons-grid" id="lessons-grid"></div>
+  </div>
+
+  <!-- LESSON -->
+  <div id="lesson-view">
+    <div class="lesson-layout">
+      <div class="sidebar" id="sidebar">
+        <div class="sidebar-title">📚 All Lessons</div>
+        <div id="sidebar-list"></div>
+      </div>
+      <div class="lesson-main" id="lesson-main"></div>
+    </div>
+  </div>
+</div>
+
+<!-- Locked Modal -->
+<div class="locked-overlay" id="locked-overlay">
+  <div class="locked-box">
+    <div class="lock-emoji">🔒</div>
+    <h3>Lesson Locked</h3>
+    <p>You must score at least <strong>4 out of 5</strong> on the quiz in the previous lesson to unlock this one. Keep practicing!</p>
+    <button class="btn-got-it" onclick="closeLocked()">Got it!</button>
+  </div>
+</div>
+
+<script>
+const LESSONS = [
+  { num:1, title:"Greetings", words:["Hello","Good morning","Good afternoon","Good evening","Good night","How are you?","I am fine.","Thank you","You're welcome"], patterns:["Hello!","How are you?","I am fine, thank you."], conv:[["A","Hello!"],["B","Hello! Good morning."],["A","How are you?"],["B","I am fine. Thank you!"],["A","You're welcome."]], practice:["Say aloud 5 times: Hello. How are you? I am fine.","Write: Good morning. Good evening.","Practice with a friend: greet each other."], mcq:[{q:"Which is a morning greeting?",opts:["Good morning","Good night","Goodbye","See you"],ans:0},{q:"How do you ask someone how they feel?",opts:["How are you?","Where are you?","Who are you?","What are you?"],ans:0},{q:"What do you say after someone thanks you?",opts:["You're welcome","Goodbye","Hello","Fine"],ans:0},{q:"Which means you feel good?",opts:["I am fine","I am sad","I am gone","I am lost"],ans:0},{q:"What do you say at night?",opts:["Good night","Good morning","Good afternoon","Hello"],ans:0}]},
+  { num:2, title:"Introductions", words:["My name is","I am","What is your name?","Nice to meet you","Where are you from?","I am from","How old are you?","I am ___ years old"], patterns:["My name is Anna.","I am from Mexico.","Nice to meet you."], conv:[["A","Hello! What is your name?"],["B","My name is Tom. What is your name?"],["A","I am Anna. Nice to meet you."],["B","Nice to meet you too. Where are you from?"],["A","I am from Canada."]], practice:["Write your name: My name is ___.","Write: I am from ___.","Ask a friend: What is your name?"], mcq:[{q:"How do you say your name?",opts:["My name is","My food is","My car is","My house is"],ans:0},{q:"How do you ask someone's name?",opts:["What is your name?","Where is your name?","Who is your name?","How is your name?"],ans:0},{q:"What do you say when you meet someone?",opts:["Nice to meet you","Goodbye","See you","Good night"],ans:0},{q:"How do you say your country?",opts:["I am from","I go from","I eat from","I live from"],ans:0},{q:"How do you ask someone's age?",opts:["How old are you?","How tall are you?","How big are you?","How fast are you?"],ans:0}]},
+  { num:3, title:"Numbers 1–10", words:["one","two","three","four","five","six","seven","eight","nine","ten"], patterns:["I have two apples.","There are five chairs.","I see three birds."], conv:[["A","How many apples do you have?"],["B","I have three apples."],["A","How many chairs are there?"],["B","There are five chairs."],["A","Good!"]], practice:["Count aloud: one, two, three... ten.","Write the numbers 1 to 10.","Say: I have ___ books. (use different numbers)"], mcq:[{q:"What number comes after four?",opts:["Five","Six","Three","Two"],ans:0},{q:"How do you write 7 in words?",opts:["Seven","Eight","Six","Nine"],ans:0},{q:"What is two + three?",opts:["Five","Four","Six","Seven"],ans:0},{q:"Which number is this: 10?",opts:["Ten","Nine","Eight","Seven"],ans:0},{q:"How many fingers on one hand?",opts:["Five","Four","Six","Three"],ans:0}]},
+  { num:4, title:"Colors", words:["red","blue","green","yellow","white","black","orange","purple","pink","brown"], patterns:["The sky is blue.","My shirt is red.","The grass is green."], conv:[["A","What color is your bag?"],["B","My bag is black."],["A","What color is the apple?"],["B","The apple is red."],["A","I like red too!"]], practice:["Look around and say: This is ___ (color).","Write: My favorite color is ___.","Name 5 things and their colors."], mcq:[{q:"What color is the sun?",opts:["Yellow","Blue","Green","Purple"],ans:0},{q:"What color is grass?",opts:["Green","Red","Black","Orange"],ans:0},{q:"What color is the sky?",opts:["Blue","Brown","Pink","White"],ans:0},{q:"What color is snow?",opts:["White","Black","Blue","Red"],ans:0},{q:"What color is a banana?",opts:["Yellow","Purple","Green","Red"],ans:0}]},
+  { num:5, title:"Days of the Week", words:["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday","today","tomorrow","yesterday"], patterns:["Today is Monday.","Tomorrow is Tuesday.","I work on Friday."], conv:[["A","What day is today?"],["B","Today is Wednesday."],["A","What day is tomorrow?"],["B","Tomorrow is Thursday."],["A","Great, see you then!"]], practice:["Say all 7 days in order.","Write: Today is ___.","Write: Tomorrow is ___."], mcq:[{q:"Which day comes after Monday?",opts:["Tuesday","Wednesday","Sunday","Friday"],ans:0},{q:"Which day is the first of the week?",opts:["Monday","Saturday","Sunday","Friday"],ans:0},{q:"Which days are the weekend?",opts:["Saturday and Sunday","Monday and Tuesday","Wednesday and Thursday","Friday and Saturday"],ans:0},{q:"What is the day before today?",opts:["Yesterday","Tomorrow","Today","Now"],ans:0},{q:"Which day comes after Thursday?",opts:["Friday","Monday","Tuesday","Sunday"],ans:0}]},
+  { num:6, title:"At Home – Rooms", words:["house","room","kitchen","bedroom","bathroom","living room","dining room","garden","door","window"], patterns:["I sleep in the bedroom.","We cook in the kitchen.","The door is open."], conv:[["A","Where do you eat?"],["B","I eat in the dining room."],["A","Where do you sleep?"],["B","I sleep in the bedroom."],["A","Is the bathroom clean?"],["B","Yes, it is."]], practice:["Say each room name aloud.","Draw your home and label the rooms.","Write: I ___ in the ___."], mcq:[{q:"Where do you cook food?",opts:["Kitchen","Bedroom","Bathroom","Garden"],ans:0},{q:"Where do you sleep?",opts:["Bedroom","Kitchen","Living room","Dining room"],ans:0},{q:"Where do you take a shower?",opts:["Bathroom","Bedroom","Kitchen","Garden"],ans:0},{q:"Where do you watch TV and relax?",opts:["Living room","Bathroom","Bedroom","Kitchen"],ans:0},{q:"What opens to let you enter a room?",opts:["Door","Window","Wall","Floor"],ans:0}]},
+  { num:7, title:"Food and Drinks", words:["bread","rice","water","milk","egg","fruit","vegetable","meat","juice","coffee"], patterns:["I eat bread for breakfast.","I drink water every day.","Do you like rice?"], conv:[["A","What do you eat for breakfast?"],["B","I eat bread and an egg."],["A","What do you drink?"],["B","I drink milk and coffee."],["A","I like juice!"]], practice:["Name 5 foods you eat.","Write: I eat ___ for breakfast.","Write: I drink ___ in the morning."], mcq:[{q:"What is a drink?",opts:["Water","Bread","Rice","Egg"],ans:0},{q:"Which is a vegetable?",opts:["Carrot","Juice","Milk","Bread"],ans:0},{q:"What do you eat for breakfast?",opts:["Bread and egg","Car and book","Pen and paper","Chair and table"],ans:0},{q:"Which is a fruit?",opts:["Apple","Milk","Rice","Meat"],ans:0},{q:"What do you drink?",opts:["Juice","Chair","Door","Pen"],ans:0}]},
+  { num:8, title:"The Body", words:["head","eyes","ears","nose","mouth","hands","arms","legs","feet","back"], patterns:["I have two eyes.","My head hurts.","I wash my hands."], conv:[["A","Where does it hurt?"],["B","My back hurts."],["A","Do your legs hurt too?"],["B","No, only my back."],["A","Please rest."]], practice:["Touch each body part and say its name.","Write: I have two ___.","Say: My ___ hurts."], mcq:[{q:"What do you use to see?",opts:["Eyes","Ears","Nose","Mouth"],ans:0},{q:"What do you use to hear?",opts:["Ears","Eyes","Hands","Feet"],ans:0},{q:"What do you use to smell?",opts:["Nose","Mouth","Arms","Legs"],ans:0},{q:"What do you use to walk?",opts:["Legs","Hands","Head","Back"],ans:0},{q:"What do you use to eat?",opts:["Mouth","Eyes","Ears","Arms"],ans:0}]},
+  { num:9, title:"Clothes", words:["shirt","pants","dress","shoes","socks","jacket","hat","skirt","coat","belt"], patterns:["I wear a shirt.","She wears a dress.","It is cold, so I wear a coat."], conv:[["A","What do you wear to work?"],["B","I wear a shirt and pants."],["A","Do you wear a jacket?"],["B","Yes, I wear a jacket when it is cold."],["A","That is smart!"]], practice:["Name the clothes you are wearing now.","Write: I wear ___ every day.","Point to clothes and say their names."], mcq:[{q:"What do you wear on your feet?",opts:["Shoes","Hat","Shirt","Belt"],ans:0},{q:"What do you wear when it is cold?",opts:["Coat","Shorts","Sandals","T-shirt"],ans:0},{q:"What do you wear on your head?",opts:["Hat","Shirt","Pants","Socks"],ans:0},{q:"What keeps your pants up?",opts:["Belt","Shoes","Jacket","Hat"],ans:0},{q:"What do girls often wear instead of pants?",opts:["Skirt","Coat","Socks","Hat"],ans:0}]},
+  { num:10, title:"Family Members", words:["mother","father","brother","sister","son","daughter","husband","wife","grandparents","child"], patterns:["She is my mother.","I have one brother.","My family is big."], conv:[["A","Do you have brothers or sisters?"],["B","I have one brother and one sister."],["A","What is your mother's name?"],["B","Her name is Maria."],["A","That is a nice name."]], practice:["Write the names of your family members.","Say: ___ is my ___.","Draw your family and label each person."], mcq:[{q:"What is your mother's husband?",opts:["Father","Brother","Son","Uncle"],ans:0},{q:"What do you call your parents' son?",opts:["Brother","Sister","Daughter","Aunt"],ans:0},{q:"What do you call a female child?",opts:["Daughter","Son","Brother","Father"],ans:0},{q:"What are your grandparents?",opts:["Your parents' parents","Your brother's children","Your sister's children","Your cousins"],ans:0},{q:"What do you call a male child?",opts:["Son","Daughter","Sister","Mother"],ans:0}]},
+  { num:11, title:"Time – Hours and Minutes", words:["time","hour","minute","clock","morning","afternoon","evening","o'clock","half past","quarter past"], patterns:["What time is it?","It is three o'clock.","I wake up at seven in the morning."], conv:[["A","What time is it?"],["B","It is half past two."],["A","Is it morning or afternoon?"],["B","It is afternoon."],["A","Thank you."]], practice:["Say times aloud: 1:00, 2:30, 3:15.","Write: I wake up at ___.","Look at a clock and say the time."], mcq:[{q:"What do you ask to know the time?",opts:["What time is it?","Where is it?","Who is it?","Why is it?"],ans:0},{q:"What does 3:00 mean?",opts:["Three o'clock","Three minutes","Three days","Three hours"],ans:0},{q:"What is 2:30?",opts:["Half past two","Quarter past two","Two o'clock","Quarter to two"],ans:0},{q:"When is 7 AM?",opts:["Morning","Afternoon","Evening","Night"],ans:0},{q:"How many minutes in one hour?",opts:["60","30","24","12"],ans:0}]},
+  { num:12, title:"Weather", words:["sunny","cloudy","rainy","windy","cold","hot","warm","snowy","storm","weather"], patterns:["It is sunny today.","The weather is cold.","Is it raining?"], conv:[["A","What is the weather today?"],["B","It is cloudy and cold."],["A","Will it rain?"],["B","Yes, it may rain this afternoon."],["A","I will bring an umbrella."]], practice:["Look outside and describe the weather.","Write: Today the weather is ___.","Say: I like ___ weather."], mcq:[{q:"What is the opposite of hot?",opts:["Cold","Warm","Sunny","Windy"],ans:0},{q:"What falls from the sky when it rains?",opts:["Water","Snow","Wind","Sun"],ans:0},{q:"What do we say when the sun shines?",opts:["Sunny","Rainy","Cloudy","Stormy"],ans:0},{q:"What is the weather like in winter?",opts:["Cold and snowy","Hot and sunny","Warm and windy","Rainy and hot"],ans:0},{q:"What do you carry when it rains?",opts:["Umbrella","Hat","Belt","Gloves"],ans:0}]},
+  { num:13, title:"At the Market", words:["market","buy","sell","price","cheap","expensive","money","change","shop","bag"], patterns:["How much is this?","It is too expensive.","I want to buy bread."], conv:[["A","How much is this apple?"],["B","It is one dollar."],["A","That is cheap. I will take three."],["B","That is three dollars."],["A","Here is the money."],["B","Here is your change."]], practice:["Practice: How much is ___?","Write: I want to buy ___.","Say: This is cheap / expensive."], mcq:[{q:"What do you ask for the price?",opts:["How much is this?","Where is this?","Who is this?","What is this?"],ans:0},{q:"What is the opposite of expensive?",opts:["Cheap","Hot","Big","Small"],ans:0},{q:"What do you use to pay?",opts:["Money","Food","Water","Clothes"],ans:0},{q:"What does a shop do?",opts:["Sells things","Eats things","Drinks things","Sleeps"],ans:0},{q:"What do you get back when you pay too much?",opts:["Change","Food","A bag","A price"],ans:0}]},
+  { num:14, title:"Transport", words:["bus","car","train","taxi","bicycle","walk","drive","ticket","stop","station"], patterns:["I take the bus to work.","The train is fast.","Where is the bus stop?"], conv:[["A","How do you go to work?"],["B","I take the bus."],["A","Where is the bus stop?"],["B","It is on Main Street."],["A","Thank you!"]], practice:["Say how you travel: I go by ___.","Write: I take the ___ to ___.","Name 5 types of transport."], mcq:[{q:"What do you buy to ride the train?",opts:["Ticket","Money","Food","Bag"],ans:0},{q:"Where does the train stop?",opts:["Station","Market","House","School"],ans:0},{q:"What is a bicycle?",opts:["A vehicle with two wheels","A vehicle with four wheels","A bus","A boat"],ans:0},{q:"How do you travel by foot?",opts:["Walk","Drive","Fly","Swim"],ans:0},{q:"What do you take to go fast in a city?",opts:["Taxi","Bicycle","Horse","Boat"],ans:0}]},
+  { num:15, title:"At the Doctor", words:["doctor","sick","pain","headache","fever","medicine","rest","hospital","appointment","healthy"], patterns:["I am sick.","I have a headache.","The doctor says to rest."], conv:[["A","How do you feel?"],["B","I feel sick. I have a fever."],["A","You should see a doctor."],["B","I have an appointment today."],["A","I hope you feel better soon."]], practice:["Say: I have a ___ (pain, headache, fever).","Write: I need to see a doctor.","Say: The doctor gives me medicine."], mcq:[{q:"Who do you see when you are sick?",opts:["Doctor","Teacher","Driver","Cook"],ans:0},{q:"Where do very sick people go?",opts:["Hospital","Market","School","Park"],ans:0},{q:"What do you take when you are sick?",opts:["Medicine","Food only","No water","Only rest"],ans:0},{q:"What is a fever?",opts:["High body temperature","A cold room","A sore hand","A broken arm"],ans:0},{q:"What do you make to see a doctor?",opts:["Appointment","Ticket","Bag","Map"],ans:0}]},
+  { num:16, title:"At School", words:["school","teacher","student","class","lesson","book","pen","desk","homework","learn"], patterns:["I go to school every day.","The teacher is kind.","I do my homework at home."], conv:[["A","Do you go to school?"],["B","Yes, I am a student."],["A","What do you learn?"],["B","I learn English."],["A","Who is your teacher?"],["B","Her name is Mrs. Smith."]], practice:["Write: I learn ___ at school.","Say: My teacher is ___.","Name 5 things in your classroom."], mcq:[{q:"Who teaches in a school?",opts:["Teacher","Doctor","Driver","Cook"],ans:0},{q:"What do students do at home after school?",opts:["Homework","Sleep all day","Cook dinner","Drive a car"],ans:0},{q:"What do you use to write?",opts:["Pen","Book","Desk","Chair"],ans:0},{q:"What do you sit at in class?",opts:["Desk","Bed","Sofa","Car"],ans:0},{q:"What do you do at school?",opts:["Learn","Sleep","Cook","Drive"],ans:0}]},
+  { num:17, title:"Jobs and Work", words:["job","work","office","nurse","farmer","cook","driver","police","engineer","manager"], patterns:["I work in an office.","She is a nurse.","What is your job?"], conv:[["A","What is your job?"],["B","I am a teacher. What about you?"],["A","I am a cook."],["B","That is interesting! Do you like cooking?"],["A","Yes, I love it."]], practice:["Write: My job is ___.","Say: I work as a ___.","Name 5 jobs you know."], mcq:[{q:"Who works in a hospital and helps patients?",opts:["Nurse","Farmer","Driver","Engineer"],ans:0},{q:"Who grows food?",opts:["Farmer","Cook","Police","Manager"],ans:0},{q:"Who drives a car for work?",opts:["Driver","Nurse","Teacher","Cook"],ans:0},{q:"Where do many people do office work?",opts:["Office","Farm","Hospital","Park"],ans:0},{q:"What do you call your regular work?",opts:["Job","Lesson","Holiday","Exercise"],ans:0}]},
+  { num:18, title:"Feelings and Emotions", words:["happy","sad","angry","tired","excited","scared","bored","surprised","worried","calm"], patterns:["I am happy today.","She looks tired.","He is very excited."], conv:[["A","How do you feel today?"],["B","I am a little tired."],["A","Why?"],["B","I worked all day."],["A","You should rest. I hope you feel better!"]], practice:["Make a face for each emotion: happy, sad, angry.","Write: Today I feel ___.","Say: I am ___ because ___."], mcq:[{q:"What is the opposite of happy?",opts:["Sad","Excited","Calm","Bored"],ans:0},{q:"How do you feel after a long day of work?",opts:["Tired","Happy","Excited","Surprised"],ans:0},{q:"How do you feel before a party?",opts:["Excited","Bored","Scared","Angry"],ans:0},{q:"How do you feel when you hear a loud noise?",opts:["Scared","Calm","Happy","Bored"],ans:0},{q:"What feeling means you have nothing to do?",opts:["Bored","Tired","Angry","Sad"],ans:0}]},
+  { num:19, title:"Months of the Year", words:["January","February","March","April","May","June","July","August","September","October"], patterns:["My birthday is in July.","It is cold in January.","What month is it?"], conv:[["A","What month is your birthday?"],["B","My birthday is in March."],["A","Mine is in October!"],["B","Is October cold in your country?"],["A","Yes, it is autumn."]], practice:["Say all 12 months in order.","Write: My birthday is in ___.","Write: It is cold/hot in ___."], mcq:[{q:"Which month comes first?",opts:["January","March","June","September"],ans:0},{q:"Which month comes after June?",opts:["July","May","August","April"],ans:0},{q:"How many months are in a year?",opts:["12","10","7","6"],ans:0},{q:"Which month is usually summer in the north?",opts:["July","January","March","November"],ans:0},{q:"Which month comes after September?",opts:["October","August","November","July"],ans:0}]},
+  { num:20, title:"In the Kitchen", words:["cook","boil","fry","cut","wash","plate","cup","spoon","knife","pot"], patterns:["I boil water for tea.","She cuts vegetables.","Please wash the dishes."], conv:[["A","What are you doing?"],["B","I am cooking dinner."],["A","What are you making?"],["B","I am frying eggs."],["A","It smells good!"]], practice:["Name the tools in your kitchen.","Write: I use a ___ to ___.","Act out: wash, cut, boil, fry."], mcq:[{q:"What do you use to cut food?",opts:["Knife","Spoon","Cup","Pot"],ans:0},{q:"What do you use to heat water?",opts:["Pot","Plate","Spoon","Cup"],ans:0},{q:"What does boil mean?",opts:["To cook in hot water","To cut food","To eat food","To wash food"],ans:0},{q:"What do you eat food from?",opts:["Plate","Pot","Knife","Spoon"],ans:0},{q:"What do you drink from?",opts:["Cup","Plate","Pot","Knife"],ans:0}]},
+  { num:21, title:"Numbers 11–100", words:["eleven","twelve","twenty","thirty","forty","fifty","sixty","seventy","eighty","hundred"], patterns:["I am thirty years old.","There are fifty students.","The price is twenty dollars."], conv:[["A","How old are you?"],["B","I am forty-two years old."],["A","How many people are in your family?"],["B","There are six people."],["A","That is a big family!"]], practice:["Count by tens: 10, 20, 30... 100.","Write: I am ___ years old.","Say prices: twenty dollars, fifty cents."], mcq:[{q:"What number comes after eleven?",opts:["Twelve","Thirteen","Ten","Fourteen"],ans:0},{q:"How do you write 20?",opts:["Twenty","Twelve","Two","Two hundred"],ans:0},{q:"What is 50 + 50?",opts:["One hundred","Eighty","Sixty","Seventy"],ans:0},{q:"How many cents in one dollar?",opts:["100","50","10","20"],ans:0},{q:"What is half of one hundred?",opts:["Fifty","Forty","Sixty","Thirty"],ans:0}]},
+  { num:22, title:"Shopping for Clothes", words:["size","small","medium","large","try on","fit","color","style","sale","receipt"], patterns:["Do you have this in medium?","Can I try it on?","It does not fit."], conv:[["A","Can I help you?"],["B","Yes. Do you have this shirt in large?"],["A","Yes, we do. Would you like to try it on?"],["B","Yes, please."],["A","The fitting room is over there."],["B","Thank you!"]], practice:["Say your clothing size.","Write: I wear size ___.","Practice: Can I try on ___?"], mcq:[{q:"What do you ask if a shirt is too small?",opts:["Do you have a larger size?","Is it on sale?","What color is it?","Can I have a receipt?"],ans:0},{q:"Where do you try on clothes?",opts:["Fitting room","Kitchen","Bedroom","Garden"],ans:0},{q:"What means clothes are cheaper?",opts:["On sale","New arrival","Out of stock","Full price"],ans:0},{q:"What do you get after you pay?",opts:["Receipt","Change only","A bag only","Nothing"],ans:0},{q:"Which size is between small and large?",opts:["Medium","Extra large","Extra small","Mini"],ans:0}]},
+  { num:23, title:"Directions", words:["left","right","straight","turn","street","corner","near","far","map","address"], patterns:["Turn left at the corner.","Go straight ahead.","Is it near here?"], conv:[["A","Excuse me. Where is the bank?"],["B","Go straight and turn right."],["A","Is it far?"],["B","No, it is near. Just two minutes."],["A","Thank you very much!"]], practice:["Practice: Turn left/right.","Write directions from your home to a shop.","Say: The ___ is near/far."], mcq:[{q:"What is the opposite of left?",opts:["Right","Straight","Near","Far"],ans:0},{q:"What does 'straight ahead' mean?",opts:["Continue in the same direction","Turn left","Turn right","Go back"],ans:0},{q:"What do you use to find a place?",opts:["Map","Spoon","Book","Chair"],ans:0},{q:"What is the opposite of near?",opts:["Far","Close","Right","Left"],ans:0},{q:"What do you need to find someone's house?",opts:["Address","Name only","Phone only","Color"],ans:0}]},
+  { num:24, title:"At a Restaurant", words:["menu","order","waiter","table","bill","tip","dish","hungry","thirsty","delicious"], patterns:["I am hungry.","Can I see the menu?","The food is delicious."], conv:[["A","Good evening! Do you have a table for two?"],["B","Yes! Follow me please."],["A","Thank you. Can we see the menu?"],["B","Of course. Are you ready to order?"],["A","Yes, I will have the pasta."],["B","Great choice!"]], practice:["Act out ordering food.","Write: I want to eat ___.","Say: The food is delicious / not good."], mcq:[{q:"What do you read to choose your food?",opts:["Menu","Bill","Receipt","Map"],ans:0},{q:"Who brings your food at a restaurant?",opts:["Waiter","Doctor","Driver","Teacher"],ans:0},{q:"What do you pay at the end?",opts:["Bill","Menu","Tip","Order"],ans:0},{q:"What means the food tastes very good?",opts:["Delicious","Hungry","Thirsty","Cold"],ans:0},{q:"What do you feel when you need water?",opts:["Thirsty","Hungry","Tired","Bored"],ans:0}]},
+  { num:25, title:"At the Bank", words:["bank","account","deposit","withdraw","cash","card","transfer","balance","ATM","save"], patterns:["I have a bank account.","I need to withdraw money.","What is my balance?"], conv:[["A","Hello. I want to deposit money."],["B","Of course. How much would you like to deposit?"],["A","Five hundred dollars."],["B","Please give me your card."],["A","Here it is. What is my balance now?"],["B","It is eight hundred dollars."]], practice:["Write: I want to ___ money.","Say: My balance is ___.","Practice: I need to go to the ATM."], mcq:[{q:"Where do you keep your money safely?",opts:["Bank","Market","School","Park"],ans:0},{q:"What means to put money in the bank?",opts:["Deposit","Withdraw","Transfer","Save"],ans:0},{q:"What means to take money out?",opts:["Withdraw","Deposit","Save","Transfer"],ans:0},{q:"What machine gives you cash?",opts:["ATM","TV","Car","Computer"],ans:0},{q:"What shows how much money you have?",opts:["Balance","Transfer","Card","Deposit"],ans:0}]},
+  { num:26, title:"Hobbies", words:["hobby","read","cook","swim","paint","sing","dance","garden","travel","watch TV"], patterns:["My hobby is reading.","I like to swim.","She loves to paint."], conv:[["A","What do you like to do in your free time?"],["B","I like to read books and cook."],["A","Do you like to swim?"],["B","Yes! I swim on weekends."],["A","That sounds fun!"]], practice:["Write: My hobby is ___.","Say: I like to ___.","Name 3 hobbies you have or want."], mcq:[{q:"What is a hobby?",opts:["Something you enjoy doing","Your job","Your food","Your sleep"],ans:0},{q:"Which is a hobby?",opts:["Painting","Eating medicine","Going to hospital","Paying bills"],ans:0},{q:"What do you do with a book?",opts:["Read it","Cook it","Drive it","Wear it"],ans:0},{q:"What do you do in water for fun?",opts:["Swim","Cook","Sleep","Drive"],ans:0},{q:"What do you do when you listen to music and move?",opts:["Dance","Paint","Garden","Travel"],ans:0}]},
+  { num:27, title:"Seasons", words:["spring","summer","autumn","winter","season","hot","cold","leaf","flower","snow"], patterns:["It is hot in summer.","Flowers grow in spring.","Snow falls in winter."], conv:[["A","What is your favorite season?"],["B","I love spring. The flowers are beautiful."],["A","I like summer because it is warm."],["B","Do you like winter?"],["A","No, it is too cold for me!"]], practice:["Name all 4 seasons.","Write: In ___ it is ___ (hot/cold).","Say: My favorite season is ___ because ___."], mcq:[{q:"When do flowers bloom?",opts:["Spring","Winter","Autumn","Summer"],ans:0},{q:"When is it hottest?",opts:["Summer","Winter","Autumn","Spring"],ans:0},{q:"When do leaves fall from trees?",opts:["Autumn","Spring","Summer","Winter"],ans:0},{q:"When does snow fall?",opts:["Winter","Summer","Spring","Autumn"],ans:0},{q:"How many seasons are there?",opts:["4","3","5","2"],ans:0}]},
+  { num:28, title:"Using a Phone", words:["phone","call","text","message","number","answer","busy","voicemail","charge","battery"], patterns:["I will call you later.","Can you text me?","My battery is low."], conv:[["A","Hello?"],["B","Hi! It is Tom. Can you talk?"],["A","Yes. What is happening?"],["B","I want to meet for coffee."],["A","Great! Text me the address."],["B","OK. I will send it now."]], practice:["Say your phone number aloud.","Write: My phone number is ___.","Practice: Can I call you at ___?"], mcq:[{q:"What do you do to speak to someone on a phone?",opts:["Call","Text","Charge","Message"],ans:0},{q:"What means to send a written message?",opts:["Text","Call","Answer","Charge"],ans:0},{q:"What happens when the battery is low?",opts:["The phone may turn off","The phone calls automatically","The phone gets faster","Nothing changes"],ans:0},{q:"What do you do when someone calls you?",opts:["Answer","Ignore only","Sleep","Drive"],ans:0},{q:"Where do people leave voice messages?",opts:["Voicemail","Battery","Number","Charger"],ans:0}]},
+  { num:29, title:"Describing People", words:["tall","short","thin","heavy","young","old","beautiful","kind","smart","friendly"], patterns:["She is tall and thin.","He is very kind.","My teacher is smart and friendly."], conv:[["A","What does your friend look like?"],["B","She is tall with long hair."],["A","Is she young?"],["B","Yes, she is twenty-five years old."],["A","Is she friendly?"],["B","Yes, very friendly!"]], practice:["Describe a friend: ___ is ___ and ___.","Write: My mother is ___.","Say: I am ___ and ___."], mcq:[{q:"What is the opposite of tall?",opts:["Short","Old","Thin","Heavy"],ans:0},{q:"What is the opposite of young?",opts:["Old","Kind","Smart","Friendly"],ans:0},{q:"What means a person is nice and easy to talk to?",opts:["Friendly","Heavy","Short","Thin"],ans:0},{q:"What means a person is very intelligent?",opts:["Smart","Kind","Old","Tall"],ans:0},{q:"What is the opposite of heavy?",opts:["Thin","Young","Beautiful","Smart"],ans:0}]},
+  { num:30, title:"Animals", words:["dog","cat","bird","fish","horse","cow","pig","chicken","elephant","lion"], patterns:["I have a dog.","Cows give us milk.","The bird sings."], conv:[["A","Do you have any pets?"],["B","Yes, I have a dog and a cat."],["A","What is your dog's name?"],["B","His name is Max."],["A","I love dogs too!"]], practice:["Name 5 animals and the sounds they make.","Write: I have a ___.","Say: The ___ is big/small."], mcq:[{q:"Which animal gives us milk?",opts:["Cow","Dog","Cat","Fish"],ans:0},{q:"Which animal can fly?",opts:["Bird","Dog","Pig","Horse"],ans:0},{q:"Which animal is the biggest?",opts:["Elephant","Cat","Chicken","Fish"],ans:0},{q:"Which animal is a common pet?",opts:["Dog","Elephant","Lion","Cow"],ans:0},{q:"Which animal lives in water?",opts:["Fish","Cat","Dog","Bird"],ans:0}]},
+  { num:31, title:"At the Post Office", words:["letter","envelope","stamp","package","send","receive","address","postcode","weigh","deliver"], patterns:["I want to send a letter.","Please put a stamp on the envelope.","When will it arrive?"], conv:[["A","I would like to send this package."],["B","Where is it going?"],["A","To New York."],["B","Let me weigh it. It is two kilos."],["A","How much is the stamp?"],["B","It is three dollars."]], practice:["Write a fake address.","Say: I want to send a ___ to ___.","Write: Please deliver this to ___."], mcq:[{q:"What do you stick on an envelope to send it?",opts:["Stamp","Address","Package","Letter"],ans:0},{q:"What do you write on an envelope?",opts:["Address","Stamp","Letter","Postcode only"],ans:0},{q:"What do you call a large item you send by mail?",opts:["Package","Letter","Stamp","Envelope"],ans:0},{q:"What does deliver mean?",opts:["To bring something to someone","To eat something","To buy something","To weigh something"],ans:0},{q:"What does receive mean?",opts:["To get something","To send something","To weigh something","To stamp something"],ans:0}]},
+  { num:32, title:"In the Park", words:["park","walk","run","bench","grass","tree","flower","children","playground","picnic"], patterns:["I walk in the park.","Children play on the playground.","Let's have a picnic."], conv:[["A","Would you like to go to the park today?"],["B","Yes! The weather is perfect."],["A","We can sit on the bench and relax."],["B","Can we bring food for a picnic?"],["A","Great idea!"]], practice:["Write: I like to ___ in the park.","Say: I see ___ in the park.","Describe a park you know."], mcq:[{q:"What is in a park?",opts:["Trees and grass","Cars and roads","Desks and chairs","Pots and pans"],ans:0},{q:"Where do children play in a park?",opts:["Playground","Kitchen","Office","Bedroom"],ans:0},{q:"What do you sit on in the park?",opts:["Bench","Desk","Sofa","Chair"],ans:0},{q:"What means eating food outside?",opts:["Picnic","Cooking","Shopping","Working"],ans:0},{q:"What is a fast way to move in the park?",opts:["Run","Sleep","Sit","Eat"],ans:0}]},
+  { num:33, title:"Asking for Help", words:["help","please","excuse me","sorry","could you","I need","problem","understand","repeat","slowly"], patterns:["Excuse me, can you help me?","Could you repeat that?","I do not understand."], conv:[["A","Excuse me. I need help."],["B","Of course! What is the problem?"],["A","I do not understand this word."],["B","No problem. I will explain slowly."],["A","Thank you so much!"]], practice:["Say: Excuse me. Can you help me?","Write: I need help with ___.","Practice: Could you repeat that, please?"], mcq:[{q:"What do you say to get someone's attention politely?",opts:["Excuse me","Goodbye","Good night","Thank you"],ans:0},{q:"What do you say when you do not understand?",opts:["I do not understand","I am fine","I am happy","I am hungry"],ans:0},{q:"What do you ask when something is too fast?",opts:["Can you speak slowly?","Can you eat?","Can you drive?","Can you walk?"],ans:0},{q:"What do you say when you make a mistake?",opts:["Sorry","Hello","Goodbye","Please"],ans:0},{q:"What do you ask when you need something?",opts:["Could you help me?","Are you tired?","Do you eat?","Where are you?"],ans:0}]},
+  { num:34, title:"Daily Routine", words:["wake up","brush teeth","shower","breakfast","commute","work","lunch","dinner","sleep","routine"], patterns:["I wake up at 6 AM.","I eat breakfast every morning.","I go to sleep at 10 PM."], conv:[["A","What time do you wake up?"],["B","I wake up at 6 in the morning."],["A","Do you eat breakfast?"],["B","Yes, I eat bread and drink coffee."],["A","What time do you sleep?"],["B","I sleep at 10 PM."]], practice:["Write your morning routine.","Say: First I ___, then I ___, then I ___.","Write: I eat ___ for lunch."], mcq:[{q:"What do you do first in the morning?",opts:["Wake up","Sleep","Eat dinner","Go to work"],ans:0},{q:"What do you use to clean your teeth?",opts:["Toothbrush","Spoon","Fork","Knife"],ans:0},{q:"What is commute?",opts:["Travel to work","Eat breakfast","Sleep","Watch TV"],ans:0},{q:"What do you eat in the morning?",opts:["Breakfast","Lunch","Dinner","Snack"],ans:0},{q:"What do you do at the end of the day?",opts:["Sleep","Wake up","Shower","Eat breakfast"],ans:0}]},
+  { num:35, title:"At the Airport", words:["airport","flight","passport","luggage","boarding pass","gate","check-in","departure","arrival","customs"], patterns:["I need my passport.","Where is gate number 5?","The flight departs at noon."], conv:[["A","Can I see your passport and boarding pass?"],["B","Here they are."],["A","How many bags do you have?"],["B","Just one suitcase."],["A","Gate 12 is to the right. Have a good flight!"]], practice:["Write: My flight departs at ___.","Say: Where is gate ___?","Practice: I need to check in."], mcq:[{q:"What document do you need to travel abroad?",opts:["Passport","Driving license only","Library card","Bus ticket"],ans:0},{q:"What paper lets you board the plane?",opts:["Boarding pass","Passport","Visa","Ticket only"],ans:0},{q:"Where do you go to take a flight?",opts:["Airport","Train station","Bus stop","Port"],ans:0},{q:"What is your luggage?",opts:["Your bags and suitcase","Your passport","Your boarding pass","Your phone"],ans:0},{q:"What is the opposite of departure?",opts:["Arrival","Departure","Gate","Check-in"],ans:0}]},
+  { num:36, title:"In the Office", words:["desk","computer","meeting","email","printer","colleague","boss","report","deadline","busy"], patterns:["I am busy with a report.","We have a meeting at 2 PM.","Please send me an email."], conv:[["A","Are you busy?"],["B","Yes, I have a deadline today."],["A","Do you need help?"],["B","Yes! Can you print this report?"],["A","Of course! I will do it now."]], practice:["Write: I work at a ___.","Say: I have a meeting at ___.","Write: My boss is ___."], mcq:[{q:"What do you use to type and do work?",opts:["Computer","Pen only","Phone only","Paper only"],ans:0},{q:"Who is your boss?",opts:["Your manager","Your colleague","Your friend","Your student"],ans:0},{q:"What is a deadline?",opts:["The last time to finish work","A meeting","An email","A computer"],ans:0},{q:"What do you use to print documents?",opts:["Printer","Computer","Desk","Phone"],ans:0},{q:"What do you send online at work?",opts:["Email","Letter","Package","Card"],ans:0}]},
+  { num:37, title:"Sports", words:["football","basketball","tennis","swimming","running","team","win","lose","score","practice"], patterns:["I play football.","My team won the game.","I practice every day."], conv:[["A","Do you like sports?"],["B","Yes! I play basketball every weekend."],["A","Are you good?"],["B","I try my best. My team won last week!"],["A","Congratulations!"]], practice:["Write: I play ___.","Say: My favorite sport is ___.","Name 5 sports."], mcq:[{q:"What sport uses a round ball and a net?",opts:["Basketball","Swimming","Running","Tennis"],ans:0},{q:"What is the opposite of win?",opts:["Lose","Score","Practice","Play"],ans:0},{q:"What do you do before a game to get better?",opts:["Practice","Lose","Score","Win"],ans:0},{q:"What sport do you play in water?",opts:["Swimming","Football","Tennis","Basketball"],ans:0},{q:"What is a group of players called?",opts:["Team","Score","Win","Practice"],ans:0}]},
+  { num:38, title:"At the Library", words:["library","borrow","return","shelf","author","title","fiction","non-fiction","quiet","librarian"], patterns:["I want to borrow a book.","Please be quiet in the library.","Who is the author?"], conv:[["A","Excuse me. I want to borrow this book."],["B","Of course. Do you have your library card?"],["A","Yes, here it is."],["B","You can keep it for two weeks."],["A","When should I return it?"],["B","Please return it by Friday."]], practice:["Write: I want to borrow a book about ___.","Say: The author of this book is ___.","Name 2 types of books: fiction and non-fiction."], mcq:[{q:"What do you do with a library book when finished?",opts:["Return it","Keep it","Buy it","Throw it"],ans:0},{q:"Who works in a library?",opts:["Librarian","Doctor","Cook","Farmer"],ans:0},{q:"What is a story that is not real?",opts:["Fiction","Non-fiction","Report","News"],ans:0},{q:"Where are books stored in a library?",opts:["Shelf","Desk","Floor","Chair"],ans:0},{q:"Who writes a book?",opts:["Author","Reader","Librarian","Student"],ans:0}]},
+  { num:39, title:"Cooking a Meal", words:["recipe","ingredient","mix","bake","grill","season","taste","serve","portion","fresh"], patterns:["Follow the recipe carefully.","Mix the ingredients together.","The food is fresh and tasty."], conv:[["A","What are you cooking?"],["B","I am baking a cake."],["A","What ingredients do you need?"],["B","Flour, eggs, sugar, and butter."],["A","Can I help?"],["B","Yes! Please mix the flour and eggs."]], practice:["Write a simple recipe for one food.","Say: I need ___ to cook ___.","Practice: Mix, bake, grill, season, serve."], mcq:[{q:"What gives instructions on how to cook?",opts:["Recipe","Menu","Bill","Plate"],ans:0},{q:"What are the things you need to make a dish?",opts:["Ingredients","Recipes","Tools","Instructions"],ans:0},{q:"What does bake mean?",opts:["To cook in an oven","To cook in water","To cook on a fire","To cook in oil"],ans:0},{q:"What do you do to add flavor to food?",opts:["Season it","Bake it","Mix it","Grill it"],ans:0},{q:"What means to give food to someone to eat?",opts:["Serve","Bake","Mix","Season"],ans:0}]},
+  { num:40, title:"Asking for Opinions", words:["think","opinion","agree","disagree","maybe","sure","idea","suggest","prefer","choice"], patterns:["What do you think?","I agree with you.","In my opinion, it is good."], conv:[["A","What do you think about this movie?"],["B","I think it is very good!"],["A","I agree. The story is great."],["B","Do you prefer action or drama?"],["A","I prefer drama. What about you?"],["B","I like both!"]], practice:["Write: In my opinion, ___.","Say: I agree / I disagree.","Ask: What do you think about ___?"], mcq:[{q:"What do you say when you share your view?",opts:["In my opinion","I am hungry","I am tired","I am late"],ans:0},{q:"What does agree mean?",opts:["To think the same thing","To think differently","To be angry","To be happy"],ans:0},{q:"What is the opposite of agree?",opts:["Disagree","Prefer","Think","Suggest"],ans:0},{q:"What do you use to choose one thing over another?",opts:["Prefer","Agree","Suggest","Think"],ans:0},{q:"What means to give an idea?",opts:["Suggest","Agree","Prefer","Choose"],ans:0}]},
+  { num:41, title:"Health and Exercise", words:["exercise","gym","stretch","jog","lift","healthy","tired","strong","flexible","warm up"], patterns:["I exercise every day.","You should warm up before jogging.","She goes to the gym."], conv:[["A","Do you exercise?"],["B","Yes, I jog every morning."],["A","Do you go to the gym?"],["B","Sometimes. I lift weights on weekends."],["A","That is great for your health!"]], practice:["Write: I exercise by ___.","Say: I exercise ___ times a week.","Name 3 exercises you like."], mcq:[{q:"What do you do before exercise to prepare?",opts:["Warm up","Sleep","Eat a big meal","Go to work"],ans:0},{q:"What is jogging?",opts:["Running slowly","Swimming fast","Lifting weights","Stretching"],ans:0},{q:"Where do people go to use exercise machines?",opts:["Gym","Park","Library","Market"],ans:0},{q:"What does flexible mean?",opts:["Able to bend easily","Very strong","Very fast","Very heavy"],ans:0},{q:"What is the benefit of exercise?",opts:["It is healthy","It makes you sick","It makes you weak","It makes you tired only"],ans:0}]},
+  { num:42, title:"Talking About Your Country", words:["country","capital","language","culture","flag","tradition","population","area","climate","famous"], patterns:["I am from Japan.","The capital is Tokyo.","We speak Japanese."], conv:[["A","Where are you from?"],["B","I am from Brazil."],["A","What is the capital?"],["B","The capital is Brasilia."],["A","What language do you speak?"],["B","We speak Portuguese."]], practice:["Write about your country: name, capital, language.","Say: My country is famous for ___.","Describe your flag."], mcq:[{q:"What is the main city of a country?",opts:["Capital","Flag","Language","Population"],ans:0},{q:"What do people in a country use to communicate?",opts:["Language","Flag","Culture","Area"],ans:0},{q:"What is a flag?",opts:["A symbol of a country","A food","A building","A language"],ans:0},{q:"What is the number of people in a country?",opts:["Population","Area","Climate","Language"],ans:0},{q:"What means related to a country's history and customs?",opts:["Culture","Capital","Flag","Population"],ans:0}]},
+  { num:43, title:"Using the Internet", words:["internet","website","search","click","download","upload","password","account","online","email"], patterns:["I search online.","Please create an account.","What is the password?"], conv:[["A","Can you help me?"],["B","Of course! What is wrong?"],["A","I forgot my password."],["B","Click on 'Forgot Password'."],["A","Then what?"],["B","Enter your email and follow the steps."]], practice:["Write: I use the internet to ___.","Say: My email is ___.","Name 3 things you do online."], mcq:[{q:"What do you use to find information online?",opts:["Search engine","Email","Password","Account"],ans:0},{q:"What do you need to log into a website?",opts:["Password","Search","Click","Download"],ans:0},{q:"What means to save a file from the internet?",opts:["Download","Upload","Search","Click"],ans:0},{q:"What means to send a file to the internet?",opts:["Upload","Download","Search","Create"],ans:0},{q:"What is a website?",opts:["A page on the internet","A phone","A book","A magazine"],ans:0}]},
+  { num:44, title:"In the Hotel", words:["hotel","room","check in","check out","reservation","key","floor","single","double","reception"], patterns:["I have a reservation.","What floor is my room on?","I would like to check out."], conv:[["A","Good evening. I have a reservation."],["B","Your name please?"],["A","My name is Lee."],["B","Yes! Room 205 on the second floor."],["A","Thank you. What time is check-out?"],["B","Check-out is at 11 AM."]], practice:["Write: My room number is ___.","Say: I want to check in / check out.","Practice: Do you have a single room?"], mcq:[{q:"What do you need before arriving at a hotel?",opts:["Reservation","Check-out","Key","Floor"],ans:0},{q:"Where do you go to check in at a hotel?",opts:["Reception","Restaurant","Gym","Park"],ans:0},{q:"What opens your hotel room?",opts:["Key","Password","Phone","Card"],ans:0},{q:"What is a double room?",opts:["A room with two beds","A room with one bed","A room with three beds","A large hall"],ans:0},{q:"What does check-out mean?",opts:["Leaving the hotel","Arriving at the hotel","Booking a room","Paying for food"],ans:0}]},
+  { num:45, title:"Describing Places", words:["big","small","clean","dirty","quiet","noisy","modern","old","crowded","beautiful"], patterns:["The city is big and modern.","The village is quiet and beautiful.","It is very crowded here."], conv:[["A","What is your city like?"],["B","It is big and very busy."],["A","Is it noisy?"],["B","Yes, but it is also very modern."],["A","Do you like it?"],["B","Yes, I love it!"]], practice:["Describe your city using 3 words.","Write: My hometown is ___.","Say: The ___ is ___ and ___."], mcq:[{q:"What is the opposite of big?",opts:["Small","Modern","Clean","Noisy"],ans:0},{q:"What is the opposite of noisy?",opts:["Quiet","Old","Big","Dirty"],ans:0},{q:"What is the opposite of clean?",opts:["Dirty","Quiet","Small","Beautiful"],ans:0},{q:"What describes a new and up-to-date place?",opts:["Modern","Old","Dirty","Crowded"],ans:0},{q:"What describes a place with too many people?",opts:["Crowded","Quiet","Clean","Small"],ans:0}]},
+  { num:46, title:"Making Plans", words:["plan","arrange","meet","appointment","free time","schedule","tomorrow","weekend","available","invite"], patterns:["Let's meet tomorrow.","Are you free on Saturday?","I will arrange a meeting."], conv:[["A","Are you free this weekend?"],["B","Yes, I am free on Saturday."],["A","Let's meet for coffee!"],["B","Great idea! What time?"],["A","How about 10 AM?"],["B","Perfect. See you then!"]], practice:["Write: I am free on ___.","Say: Let's meet at ___ on ___.","Ask: Are you available on ___?"], mcq:[{q:"What do you make to organize future activities?",opts:["Plans","Meals","Bags","Books"],ans:0},{q:"What does available mean?",opts:["Free to meet","Too busy","Sick","Tired"],ans:0},{q:"What means to ask someone to come?",opts:["Invite","Plan","Meet","Schedule"],ans:0},{q:"What is your schedule?",opts:["Your plan for the day","Your food","Your job","Your hobby"],ans:0},{q:"What do you say to suggest a meeting?",opts:["Let's meet!","Goodbye!","Good night!","Sorry!"],ans:0}]},
+  { num:47, title:"At the Pharmacy", words:["pharmacy","prescription","tablet","syrup","bandage","cream","dosage","side effect","allergy","pharmacist"], patterns:["I need a prescription.","Take two tablets a day.","Are there any side effects?"], conv:[["A","I have a sore throat."],["B","I can give you a syrup for that."],["A","Do I need a prescription?"],["B","No, this one is over the counter."],["A","How often should I take it?"],["B","Three times a day after meals."]], practice:["Write: I take ___ for my ___.","Say: The dosage is ___ times a day.","Name 3 things found at a pharmacy."], mcq:[{q:"Who works at a pharmacy?",opts:["Pharmacist","Doctor","Nurse","Dentist"],ans:0},{q:"What is a prescription?",opts:["A doctor's written instructions for medicine","A food recipe","A shopping list","An exercise plan"],ans:0},{q:"What is a dosage?",opts:["How much medicine to take","Where to buy medicine","When to sleep","What to eat"],ans:0},{q:"What is an allergy?",opts:["A bad reaction to something","A medicine","A pain","A tablet"],ans:0},{q:"What do you put on a cut?",opts:["Bandage","Syrup","Cream only","Tablet"],ans:0}]},
+  { num:48, title:"Environment and Nature", words:["nature","tree","river","mountain","sea","forest","pollution","recycle","clean","protect"], patterns:["The forest is beautiful.","We must protect nature.","Please recycle your trash."], conv:[["A","Do you like nature?"],["B","Yes! I love hiking in the mountains."],["A","Is it clean there?"],["B","Mostly, but there is some pollution."],["A","We should all do more to protect the environment."],["B","I agree. I always recycle."]], practice:["Write: I can help the environment by ___.","Name 5 things in nature.","Say: The ___ is beautiful."], mcq:[{q:"What covers a lot of land and has many trees?",opts:["Forest","River","Mountain","Sea"],ans:0},{q:"What is pollution?",opts:["Dirty air, water, or land","Clean water","Fresh air","A tall mountain"],ans:0},{q:"What does recycle mean?",opts:["To use things again","To throw things away","To buy new things","To drive a car"],ans:0},{q:"What flows through land and into the sea?",opts:["River","Mountain","Forest","Sea"],ans:0},{q:"What should we do to keep nature clean?",opts:["Protect it","Pollute it","Ignore it","Destroy it"],ans:0}]},
+  { num:49, title:"At the Dentist", words:["dentist","tooth","teeth","pain","brush","floss","cavity","appointment","x-ray","fill"], patterns:["I have a toothache.","I need to see the dentist.","Brush your teeth twice a day."], conv:[["A","Good morning! What brings you here?"],["B","I have a bad toothache."],["A","Let me take a look. Open wide please."],["B","Is it bad?"],["A","You have a small cavity. I will fill it today."],["B","Will it hurt?"]], practice:["Write: I go to the dentist every ___.","Say: I brush my teeth ___ times a day.","Name the parts: tooth, teeth, gum."], mcq:[{q:"What is a cavity?",opts:["A hole in a tooth","A type of medicine","A type of brush","A tooth X-ray"],ans:0},{q:"How often should you brush your teeth?",opts:["Twice a day","Once a week","Every hour","Once a month"],ans:0},{q:"What does a dentist take to see inside your teeth?",opts:["X-ray","Brush","Floss","Fill"],ans:0},{q:"What do you use to clean between teeth?",opts:["Floss","Brush","Cream","Tablet"],ans:0},{q:"What is another word for tooth pain?",opts:["Toothache","Headache","Stomachache","Backache"],ans:0}]},
+  { num:50, title:"Celebrations and Holidays", words:["birthday","holiday","celebrate","party","gift","cake","invite","happy","wish","congratulations"], patterns:["Happy birthday!","Let's celebrate!","I want to invite you to my party."], conv:[["A","Happy birthday!"],["B","Thank you so much!"],["A","How old are you today?"],["B","I am 30 years old!"],["A","I have a gift for you."],["B","You are so kind! Congratulations to me!"]], practice:["Write a birthday wish for a friend.","Say: Happy birthday! Congratulations!","Name 3 holidays you celebrate."], mcq:[{q:"What do you say on someone's birthday?",opts:["Happy birthday!","Good morning!","Goodbye!","See you!"],ans:0},{q:"What do you bring to a birthday party?",opts:["Gift","Homework","Bill","Letter"],ans:0},{q:"What do you cut at a birthday celebration?",opts:["Cake","Bread","Fruit only","Meat only"],ans:0},{q:"What do you say when someone does something great?",opts:["Congratulations!","Sorry!","Excuse me!","Help!"],ans:0},{q:"What does celebrate mean?",opts:["To do something fun for a special day","To go to work","To sleep all day","To study hard"],ans:0}]},
+  { num:51, title:"Talking About the Past", words:["yesterday","last week","ago","was","were","did","went","ate","saw","bought"], patterns:["I went to the market yesterday.","She was tired last night.","We ate pizza for dinner."], conv:[["A","What did you do yesterday?"],["B","I went to the park with my family."],["A","Did you enjoy it?"],["B","Yes! We ate ice cream and walked a lot."],["A","That sounds wonderful!"]], practice:["Write: Yesterday I ___.","Say: Last week I ___.","Change to past: go → went, eat → ate, buy → bought."], mcq:[{q:"What is the past form of 'go'?",opts:["Went","Going","Goes","Gone"],ans:0},{q:"What is the past form of 'eat'?",opts:["Ate","Eating","Eats","Eaten"],ans:0},{q:"What does 'yesterday' mean?",opts:["The day before today","The day after today","Today","Next week"],ans:0},{q:"Which word shows past time?",opts:["Yesterday","Tomorrow","Now","Today"],ans:0},{q:"What is the past form of 'buy'?",opts:["Bought","Buys","Buying","Buy"],ans:0}]},
+  { num:52, title:"Talking About the Future", words:["tomorrow","next week","will","going to","plan","hope","soon","later","future","maybe"], patterns:["I will call you tomorrow.","She is going to study.","We hope to visit Paris."], conv:[["A","What will you do tomorrow?"],["B","I am going to visit my parents."],["A","That sounds nice. Will you stay long?"],["B","Maybe two days."],["A","I hope you have a great time!"]], practice:["Write: Tomorrow I will ___.","Say: I am going to ___ next week.","Name 3 future plans."], mcq:[{q:"Which word shows future time?",opts:["Tomorrow","Yesterday","Last week","Before"],ans:0},{q:"What word helps make a future sentence?",opts:["Will","Was","Were","Did"],ans:0},{q:"What does 'soon' mean?",opts:["In a short time","Long ago","Never","Always"],ans:0},{q:"How do you say a future plan with 'going to'?",opts:["I am going to study","I studied","I study","I was studying"],ans:0},{q:"What does 'maybe' mean?",opts:["Perhaps, not sure","Definitely yes","Definitely no","Always"],ans:0}]},
+  { num:53, title:"Describing Your Home", words:["apartment","house","floor","rent","own","neighbor","building","lift","furniture","comfortable"], patterns:["I live in an apartment.","My home is comfortable.","We have nice neighbors."], conv:[["A","Do you live in a house or apartment?"],["B","I live in an apartment on the fifth floor."],["A","Do you take the lift?"],["B","Yes, every day!"],["A","Is it comfortable?"],["B","Very comfortable. I love it."]], practice:["Write: I live in a ___ on the ___ floor.","Say: My home has ___ rooms.","Describe your home in 3 sentences."], mcq:[{q:"What is an apartment?",opts:["A home in a building with other homes","A house in the countryside","A room in a hotel","A shop"],ans:0},{q:"What do you pay monthly if you don't own your home?",opts:["Rent","Bill","Salary","Tax"],ans:0},{q:"What takes you up and down in a building?",opts:["Lift","Stairs only","Car","Bus"],ans:0},{q:"What are tables, chairs, and sofas called?",opts:["Furniture","Appliances","Fixtures","Rooms"],ans:0},{q:"What is a neighbor?",opts:["Someone who lives near you","Your boss","Your teacher","Your doctor"],ans:0}]},
+  { num:54, title:"Emergency Situations", words:["emergency","fire","ambulance","police","call","accident","help","danger","hospital","safe"], patterns:["Call an ambulance!","There is a fire!","Are you safe?"], conv:[["A","Help! There has been an accident!"],["B","Stay calm. I will call an ambulance."],["A","Is anyone hurt?"],["B","Yes, please hurry!"],["A","The ambulance is coming. Is everyone safe?"],["B","Yes, we are away from the danger."]], practice:["Write the emergency number in your country.","Say: Call the police / ambulance / fire service.","Practice: Help! There is a ___."], mcq:[{q:"Who do you call for a fire?",opts:["Fire service","Dentist","Teacher","Librarian"],ans:0},{q:"Who do you call if someone is hurt?",opts:["Ambulance","Plumber","Cook","Driver"],ans:0},{q:"What is an emergency?",opts:["A dangerous situation needing immediate help","A birthday party","A school lesson","A market visit"],ans:0},{q:"What means free from danger?",opts:["Safe","Hurt","Lost","Sick"],ans:0},{q:"What is the first thing to do in an emergency?",opts:["Stay calm and call for help","Run away from everyone","Ignore the situation","Continue working"],ans:0}]},
+  { num:55, title:"At the Supermarket", words:["supermarket","aisle","trolley","basket","cashier","checkout","offer","quantity","section","label"], patterns:["I need a trolley.","Where is the bread section?","This item is on offer."], conv:[["A","Excuse me, where are the vegetables?"],["B","They are in aisle 3."],["A","Thank you. Do you have any offers today?"],["B","Yes! Fruits are on offer this week."],["A","Great, I will take some."]], practice:["Write a shopping list for the supermarket.","Say: I need to go to aisle ___.","Name 5 things you buy at the supermarket."], mcq:[{q:"What do you put your shopping in at the supermarket?",opts:["Trolley or basket","Your pockets","A plate","A pot"],ans:0},{q:"Where do you pay at the supermarket?",opts:["Checkout","Aisle","Entrance","Parking"],ans:0},{q:"What is a supermarket aisle?",opts:["A long row of shelves","A cashier machine","A trolley","A basket"],ans:0},{q:"What does 'on offer' mean?",opts:["Reduced in price","Out of stock","Very expensive","New arrival"],ans:0},{q:"Who receives your payment at the checkout?",opts:["Cashier","Manager","Security","Customer"],ans:0}]},
+  { num:56, title:"Using Public Services", words:["library","hospital","fire station","town hall","police station","service","free","public","register","form"], patterns:["The library is free to use.","I need to register at the town hall.","Where is the nearest police station?"], conv:[["A","Excuse me, where is the town hall?"],["B","It is on Green Street, next to the library."],["A","Is the library free?"],["B","Yes, it is a free public service."],["A","Thank you so much!"]], practice:["Name 5 public services in your town.","Write: The ___ is near my home.","Say: I need to go to the ___ to ___."], mcq:[{q:"Which place can you use for free to borrow books?",opts:["Library","Restaurant","Cinema","Hotel"],ans:0},{q:"Where do you go if you are very sick?",opts:["Hospital","Library","Park","Bank"],ans:0},{q:"What is a public service?",opts:["A service for everyone","A private business","A shop","A restaurant"],ans:0},{q:"Where do you go to register a birth or marriage?",opts:["Town hall","Police station","Hospital only","Library"],ans:0},{q:"Where do you report a crime?",opts:["Police station","Fire station","Hospital","Library"],ans:0}]},
+  { num:57, title:"Music and Entertainment", words:["music","song","dance","concert","singer","band","listen","perform","stage","audience"], patterns:["I love listening to music.","The concert is tonight.","She is a famous singer."], conv:[["A","Do you like music?"],["B","Yes! I love pop and jazz."],["A","Do you play any instruments?"],["B","I play the guitar a little."],["A","That is amazing! Do you perform?"],["B","Only for my friends."]], practice:["Write: My favorite type of music is ___.","Say: I like to listen to ___.","Name 3 instruments you know."], mcq:[{q:"What do you watch when musicians play live?",opts:["Concert","Movie","Game","Book"],ans:0},{q:"Who sings songs?",opts:["Singer","Dancer","Musician","Audience"],ans:0},{q:"What is an audience?",opts:["People who watch a performance","People who perform","People who play music","People who sing"],ans:0},{q:"Where do performers stand?",opts:["Stage","Audience","Cinema","Library"],ans:0},{q:"What is a band?",opts:["A group of musicians","A single singer","A type of music","A stage"],ans:0}]},
+  { num:58, title:"In a Meeting", words:["agenda","discuss","decision","present","agree","notes","chair","attendee","point","summary"], patterns:["Let's discuss the agenda.","Do you have any points to add?","We agreed on the decision."], conv:[["A","Let's start the meeting. First point is the budget."],["B","I have a question about the budget."],["A","Please go ahead."],["B","Can we discuss a cost reduction?"],["A","Good point. Let's add it to the agenda."]], practice:["Write: The meeting is about ___.","Say: I agree / I want to discuss ___.","Write a 3-point agenda for a fake meeting."], mcq:[{q:"What lists the topics of a meeting?",opts:["Agenda","Decision","Notes","Chair"],ans:0},{q:"What is a decision?",opts:["A choice made after discussion","A list of topics","A type of note","A meeting room"],ans:0},{q:"What means to talk about a topic?",opts:["Discuss","Agree","Present","Note"],ans:0},{q:"What do you write during a meeting to remember what was said?",opts:["Notes","Agenda","Decision","Summary"],ans:0},{q:"What is a summary?",opts:["A short version of the main points","A full meeting report","A list of attendees","A decision"],ans:0}]},
+  { num:59, title:"Travel Vocabulary", words:["journey","destination","tourist","map","guide","sightseeing","souvenir","local","abroad","visa"], patterns:["I love to travel abroad.","We are going sightseeing today.","Do I need a visa?"], conv:[["A","Where is your next destination?"],["B","I am going to Italy!"],["A","Do you need a visa?"],["B","No, I have a European passport."],["A","Will you go sightseeing?"],["B","Yes, and I will buy souvenirs for everyone!"]], practice:["Write: My dream destination is ___.","Say: I want to visit ___ because ___.","Name 3 things tourists do."], mcq:[{q:"What is a tourist?",opts:["Someone who visits a place for pleasure","Someone who lives there","A local guide","A visa officer"],ans:0},{q:"What do you get to visit some countries?",opts:["Visa","Passport only","Ticket only","Souvenir"],ans:0},{q:"What do you buy to remember a trip?",opts:["Souvenir","Visa","Map","Guide"],ans:0},{q:"What is sightseeing?",opts:["Visiting famous places","Eating local food","Buying clothes","Going to hospital"],ans:0},{q:"What is a destination?",opts:["The place you are going to","The place you left","Your home","Your hotel"],ans:0}]},
+  { num:60, title:"Cooking Methods", words:["steam","roast","simmer","stir","marinate","slice","chop","blend","drain","spread"], patterns:["Simmer the soup for 20 minutes.","Slice the bread thinly.","Blend the fruits for a smoothie."], conv:[["A","How do you make this sauce?"],["B","First, chop the onion and garlic."],["A","Then what?"],["B","Then simmer everything in a pot for 30 minutes."],["A","Can I stir it?"],["B","Yes! Stir slowly."]], practice:["Act out: slice, chop, stir, blend.","Write a step-by-step recipe using 3 methods.","Say: I like to ___ my vegetables."], mcq:[{q:"What does 'simmer' mean?",opts:["To cook slowly on low heat","To cook on very high heat","To fry in oil","To bake in oven"],ans:0},{q:"What does 'slice' mean?",opts:["To cut into thin pieces","To cook in water","To mix together","To blend"],ans:0},{q:"What does 'blend' mean?",opts:["To mix everything in a machine","To cut into pieces","To cook slowly","To steam"],ans:0},{q:"What does 'marinate' mean?",opts:["To soak food in a sauce before cooking","To cut food","To steam food","To blend food"],ans:0},{q:"What does 'drain' mean?",opts:["To remove liquid from food","To add liquid","To blend food","To roast food"],ans:0}]},
+  { num:61, title:"Education – Types of Schools", words:["nursery","primary school","secondary school","college","university","degree","graduate","subject","exam","scholarship"], patterns:["I studied at university.","She has a degree in science.","I passed my exam."], conv:[["A","Where did you study?"],["B","I went to university in London."],["A","What did you study?"],["B","I studied business."],["A","Did you enjoy it?"],["B","Yes! I got a scholarship in my second year."]], practice:["Write: I studied at ___.","Say: My degree is in ___.","Name 3 school subjects."], mcq:[{q:"What comes after secondary school?",opts:["College or university","Nursery","Primary school","Kindergarten"],ans:0},{q:"What is a degree?",opts:["A university qualification","A school subject","A type of exam","A scholarship"],ans:0},{q:"What do you take to show your knowledge?",opts:["Exam","Scholarship","Degree","Subject"],ans:0},{q:"What is a scholarship?",opts:["Money to help you study","A type of exam","A school subject","A degree"],ans:0},{q:"What does graduate mean?",opts:["To finish a course or degree","To start school","To fail an exam","To get a scholarship"],ans:0}]},
+  { num:62, title:"Technology at Home", words:["TV","remote","laptop","tablet","smart phone","charger","wireless","router","camera","speaker"], patterns:["I watch TV in the evening.","Can you connect to the wireless?","My charger is broken."], conv:[["A","Can I use your laptop?"],["B","Sure! Do you need the password?"],["A","Yes please."],["B","It is on the router. See the sticker?"],["A","Found it! Thank you."]], practice:["Name all the technology in your home.","Write: I use ___ every day.","Say: My ___ is broken / working fine."], mcq:[{q:"What do you use to control the TV?",opts:["Remote","Speaker","Router","Camera"],ans:0},{q:"What connects devices to the internet wirelessly?",opts:["Router","Charger","TV","Tablet"],ans:0},{q:"What do you plug in to charge your phone?",opts:["Charger","Router","Remote","Speaker"],ans:0},{q:"What is a laptop?",opts:["A small portable computer","A large desktop computer","A phone","A tablet"],ans:0},{q:"What device do you use to take photos?",opts:["Camera","Remote","Speaker","Charger"],ans:0}]},
+  { num:63, title:"On the Farm", words:["farm","farmer","crop","harvest","seed","soil","plow","irrigate","barn","tractor"], patterns:["The farmer plants seeds.","We harvest crops in autumn.","The tractor plows the field."], conv:[["A","What do you grow on your farm?"],["B","We grow rice and vegetables."],["A","When do you harvest?"],["B","We harvest in October."],["A","How do you water the crops?"],["B","We irrigate from the river."]], practice:["Write: Farmers grow ___.","Say: I plant ___ in spring.","Name 3 farm animals."], mcq:[{q:"What is harvesting?",opts:["Collecting crops from the field","Planting seeds","Plowing the soil","Watering crops"],ans:0},{q:"What machine do farmers use to plow?",opts:["Tractor","Car","Bicycle","Bus"],ans:0},{q:"What is soil?",opts:["The ground where plants grow","Water for plants","A type of crop","A machine"],ans:0},{q:"What does irrigate mean?",opts:["To water crops","To plow soil","To plant seeds","To harvest crops"],ans:0},{q:"Where do farmers store equipment and animals?",opts:["Barn","House","School","Market"],ans:0}]},
+  { num:64, title:"The Human Body – Inside", words:["heart","lungs","brain","stomach","blood","bone","muscle","skin","liver","kidney"], patterns:["The heart pumps blood.","Your lungs help you breathe.","Drink water to help your kidneys."], conv:[["A","Why is exercise important?"],["B","It is good for your heart and lungs."],["A","And your muscles too!"],["B","Yes! Exercise makes your muscles strong."],["A","And your bones?"],["B","Strong bones need calcium from milk."]], practice:["Name the organs inside the body.","Write: The ___ helps you ___.","Say: I need to take care of my ___."], mcq:[{q:"What organ pumps blood?",opts:["Heart","Brain","Lungs","Stomach"],ans:0},{q:"What organs help you breathe?",opts:["Lungs","Heart","Brain","Kidneys"],ans:0},{q:"What does the stomach do?",opts:["Digests food","Pumps blood","Controls thinking","Filters blood"],ans:0},{q:"What protects your organs and holds you up?",opts:["Bones","Skin","Muscles","Blood"],ans:0},{q:"What carries oxygen around the body?",opts:["Blood","Bone","Muscle","Skin"],ans:0}]},
+  { num:65, title:"Making Requests", words:["please","could you","would you","I would like","mind","bother","favor","request","politely","formal"], patterns:["Could you help me?","I would like a glass of water.","Would you mind opening the window?"], conv:[["A","Excuse me, could you pass the salt?"],["B","Of course, here you go."],["A","Thank you. Would you like some water?"],["B","Yes please! I would like a cold one."],["A","No problem!"]], practice:["Write 3 polite requests.","Say: Could you ___, please?","Practice: I would like ___ please."], mcq:[{q:"What makes a request polite?",opts:["Please and could you","Just asking loudly","Saying nothing","Demanding immediately"],ans:0},{q:"How do you ask for something formally?",opts:["I would like","Give me","I want now","Get me"],ans:0},{q:"What is another polite way to ask?",opts:["Would you mind?","Do it now!","Stop that!","Come here!"],ans:0},{q:"What is a favor?",opts:["A kind thing you do for someone","An order","A demand","A complaint"],ans:0},{q:"What does 'politely' mean?",opts:["In a kind and respectful way","Angrily","Loudly","Rudely"],ans:0}]},
+  { num:66, title:"Describing Actions", words:["quickly","slowly","carefully","loudly","quietly","together","alone","suddenly","often","always"], patterns:["She speaks quietly.","He drives carefully.","They always eat together."], conv:[["A","Why did you leave so quickly?"],["B","I was late for work."],["A","Did you eat breakfast?"],["B","No! I left suddenly and forgot."],["A","Next time, eat slowly and enjoy your morning."]], practice:["Act out: walk quickly, walk slowly, walk carefully.","Write: I always ___.","Say: She does it ___ (add an adverb)."], mcq:[{q:"What is the opposite of quickly?",opts:["Slowly","Quietly","Together","Often"],ans:0},{q:"What does 'carefully' mean?",opts:["With attention and caution","Very fast","Very loud","Without thinking"],ans:0},{q:"What is the opposite of loudly?",opts:["Quietly","Slowly","Suddenly","Always"],ans:0},{q:"What does 'suddenly' mean?",opts:["Without warning, very quickly","Slowly","Always","Often"],ans:0},{q:"What does 'always' mean?",opts:["Every time","Sometimes","Never","Rarely"],ans:0}]},
+  { num:67, title:"Paying Bills", words:["bill","electricity","gas","water","internet","due date","pay","overdue","direct debit","receipt"], patterns:["The electricity bill is due on Friday.","I pay bills online.","This bill is overdue."], conv:[["A","Did you pay the internet bill?"],["B","Not yet. When is the due date?"],["A","It was yesterday. It is overdue now."],["B","Oh no! I will pay it online now."],["A","Good. Set up a direct debit next time."]], practice:["Write: I pay the ___ bill every month.","Say: My ___ bill is due on ___.","Name 4 bills people pay."], mcq:[{q:"What is a bill?",opts:["A request for payment","A type of money","A bank account","A receipt"],ans:0},{q:"What is a due date?",opts:["The last day to pay","The first day of the month","The day you receive the bill","The direct debit date"],ans:0},{q:"What does overdue mean?",opts:["Not paid on time","Paid early","Paid correctly","A type of bill"],ans:0},{q:"What is a direct debit?",opts:["An automatic monthly payment","A cash payment","A check payment","An overdue payment"],ans:0},{q:"Which is a home utility bill?",opts:["Electricity","Library card","Concert ticket","Train ticket"],ans:0}]},
+  { num:68, title:"Talking About Health Problems", words:["headache","stomachache","cold","flu","cough","fever","rash","dizzy","weak","better"], patterns:["I have a cold.","My stomach hurts.","I feel dizzy."], conv:[["A","You look pale. Are you okay?"],["B","I have a headache and a fever."],["A","You should rest."],["B","I also have a cough."],["A","That sounds like the flu. See a doctor."],["B","Yes, I will make an appointment."]], practice:["Say: I have a ___.","Write: I feel ___ today.","Practice describing your symptoms to a doctor."], mcq:[{q:"What is a symptom of the flu?",opts:["Fever and cough","Toothache","A broken bone","Earache"],ans:0},{q:"What does 'dizzy' mean?",opts:["Feeling like the room is spinning","Very hungry","Very tired","Very happy"],ans:0},{q:"What is a rash?",opts:["Red spots on skin","A type of cough","A headache","A fever"],ans:0},{q:"What does 'better' mean in health?",opts:["Feeling healthier than before","Feeling worse","Still sick","Very ill"],ans:0},{q:"What is a cold?",opts:["A common illness with runny nose and sore throat","A type of weather","A broken arm","A stomach problem"],ans:0}]},
+  { num:69, title:"Giving Advice", words:["advice","should","ought to","recommend","suggest","try","avoid","better","important","helpful"], patterns:["You should drink more water.","I suggest you rest.","You ought to see a doctor."], conv:[["A","I feel so tired all the time."],["B","You should sleep more."],["A","I sleep 6 hours."],["B","Try to sleep 8 hours. It is important."],["A","And avoid coffee at night?"],["B","Exactly! That is very helpful advice."]], practice:["Write: You should ___ to stay healthy.","Give advice to a friend with a cold.","Say: I suggest you ___."], mcq:[{q:"What word gives advice?",opts:["Should","Did","Was","Went"],ans:0},{q:"What does 'avoid' mean?",opts:["To stay away from something","To try something","To recommend something","To suggest something"],ans:0},{q:"What does recommend mean?",opts:["To say something is good","To avoid something","To complain","To argue"],ans:0},{q:"What is advice?",opts:["Helpful suggestions","Orders","Demands","Rules"],ans:0},{q:"How can you start a suggestion?",opts:["I suggest you...","I want you to...","You must...","Do it now..."],ans:0}]},
+  { num:70, title:"Reading Timetables", words:["timetable","schedule","depart","arrive","platform","delay","on time","route","duration","stop"], patterns:["The train departs at 9 AM.","Is the bus on time?","Check the timetable first."], conv:[["A","What time does the bus depart?"],["B","According to the timetable, it departs at 8:15."],["A","Is it on time?"],["B","Yes, but sometimes there are delays."],["A","Which platform?"],["B","Platform 3."]], practice:["Write: The train departs at ___ and arrives at ___.","Say: Platform ___ for the bus to ___.","Read a fake timetable and answer questions."], mcq:[{q:"What shows transport times?",opts:["Timetable","Recipe","Map","Menu"],ans:0},{q:"What does depart mean?",opts:["To leave","To arrive","To wait","To stop"],ans:0},{q:"What is a delay?",opts:["When transport is late","When transport is early","A timetable","A platform"],ans:0},{q:"Where do trains stop in a station?",opts:["Platform","Gate","Aisle","Floor"],ans:0},{q:"What does 'on time' mean?",opts:["Not late","Very late","Delayed","Early always"],ans:0}]},
+  { num:71, title:"Agreement and Disagreement", words:["exactly","absolutely","true","I think so","not sure","I doubt it","I disagree","however","on the other hand","point"], patterns:["I think so too.","That is absolutely right.","However, I am not sure about that."], conv:[["A","English is very useful, right?"],["B","Absolutely! I use it every day."],["A","Grammar is the most important part."],["B","I disagree. Vocabulary is also very important."],["A","You make a good point."]], practice:["Practice: I agree because ___.","Write: I disagree because ___.","Have a short debate about any topic."], mcq:[{q:"What word shows strong agreement?",opts:["Absolutely","However","I doubt it","I disagree"],ans:0},{q:"What word introduces the other side of an argument?",opts:["However","Absolutely","Exactly","True"],ans:0},{q:"What does 'I doubt it' mean?",opts:["I don't think it is true","I agree completely","I am sure","I know it is true"],ans:0},{q:"What is the opposite of agree?",opts:["Disagree","Accept","Think","Suggest"],ans:0},{q:"How do you say someone has a good idea?",opts:["You make a good point","You are wrong","I doubt it","However"],ans:0}]},
+  { num:72, title:"In a Hospital", words:["ward","patient","surgeon","operation","nurse","injection","blood test","recovery","emergency room","appointment"], patterns:["I am a patient.","The surgeon will perform the operation.","Please wait for your appointment."], conv:[["A","How is the patient?"],["B","He had his operation this morning."],["A","Is he in recovery?"],["B","Yes, the nurse is with him now."],["A","When can he go home?"],["B","Maybe in two or three days."]], practice:["Write: I am going to the hospital for ___.","Say: The doctor says I need ___.","Name 5 hospital words."], mcq:[{q:"Who performs operations?",opts:["Surgeon","Nurse","Patient","Pharmacist"],ans:0},{q:"What is a patient?",opts:["A person receiving medical care","A doctor","A nurse","A surgeon"],ans:0},{q:"What is an injection?",opts:["Medicine given with a needle","A tablet","A syrup","A bandage"],ans:0},{q:"Where do very sick people stay in a hospital?",opts:["Ward","Emergency room","Reception","Office"],ans:0},{q:"What comes after an operation?",opts:["Recovery","Injection","Blood test","Ward"],ans:0}]},
+  { num:73, title:"Describing Food", words:["sweet","salty","sour","spicy","bitter","crispy","soft","fresh","cooked","raw"], patterns:["This is too spicy for me.","The bread is fresh and soft.","I love sweet desserts."], conv:[["A","How is the soup?"],["B","It is a little salty."],["A","I added more spices."],["B","Be careful, I do not like spicy food."],["A","I will add less next time. Do you like sour food?"],["B","Yes! I love sour lemons."]], practice:["Taste or imagine 3 foods and describe them.","Write: The ___ is ___ and ___.","Say: I like ___ food."], mcq:[{q:"What flavor is sugar?",opts:["Sweet","Salty","Sour","Bitter"],ans:0},{q:"What flavor is a lemon?",opts:["Sour","Sweet","Spicy","Bitter"],ans:0},{q:"What texture is a biscuit?",opts:["Crispy","Soft","Sour","Raw"],ans:0},{q:"What does raw mean?",opts:["Not cooked","Overcooked","Spicy","Soft"],ans:0},{q:"What flavor is chili pepper?",opts:["Spicy","Sweet","Sour","Bitter"],ans:0}]},
+  { num:74, title:"Shopping Online", words:["online","website","cart","order","delivery","tracking","return","review","discount","payment"], patterns:["I ordered it online.","When will it be delivered?","I can track my order."], conv:[["A","Did you buy new shoes?"],["B","Yes, I ordered them online."],["A","Was it expensive?"],["B","No, I got a 20% discount!"],["A","When will they arrive?"],["B","Tomorrow. I can track the delivery."]], practice:["Write the steps to shop online.","Say: I want to order a ___ online.","Write: My order will arrive on ___."], mcq:[{q:"Where do you put items before buying online?",opts:["Cart","Order","Review","Payment"],ans:0},{q:"What is a discount?",opts:["A reduction in price","A type of payment","A delivery method","A review"],ans:0},{q:"What is tracking?",opts:["Checking where your order is","Paying for an order","Returning an order","Reviewing a product"],ans:0},{q:"What do you do if an item is wrong?",opts:["Return it","Keep it always","Review it only","Pay more"],ans:0},{q:"What do customers write to share their experience?",opts:["Review","Order","Cart","Discount"],ans:0}]},
+  { num:75, title:"Neighborhood and Community", words:["neighborhood","community","street","avenue","local","resident","council","volunteer","event","clean"], patterns:["I live in a quiet neighborhood.","The community holds events every month.","We volunteer to clean the streets."], conv:[["A","Do you like your neighborhood?"],["B","Yes, the people are very friendly."],["A","Are there community events?"],["B","Yes! We have a street market every Saturday."],["A","That sounds lovely."]], practice:["Describe your neighborhood in 3 sentences.","Write: My neighborhood has ___.","Say: I help my community by ___."], mcq:[{q:"What is a neighborhood?",opts:["The area where you live","Your workplace","Your school","A city center"],ans:0},{q:"What is a community?",opts:["People who live in the same area","Only your family","Your workmates","A government office"],ans:0},{q:"What does volunteer mean?",opts:["To help without payment","To get paid for working","To refuse to work","To go on holiday"],ans:0},{q:"What is a resident?",opts:["Someone who lives in a place","A visitor","A tourist","A worker"],ans:0},{q:"What does local mean?",opts:["Near where you are","Far away","In another country","In another city"],ans:0}]},
+  { num:76, title:"Using English at Work", words:["professional","communicate","formal","informal","presentation","client","colleague","project","feedback","deadline"], patterns:["I have a presentation tomorrow.","Please give me feedback on my work.","The project deadline is Friday."], conv:[["A","Are you ready for the client meeting?"],["B","Almost. I am preparing my presentation."],["A","Remember to be professional."],["B","Of course. Should I use formal language?"],["A","Yes, with clients always use formal English."]], practice:["Write a formal sentence to a client.","Say: My project deadline is ___.","Name 3 ways to communicate at work."], mcq:[{q:"What is formal language?",opts:["Polite, professional language","Casual everyday talk","Slang","Informal writing"],ans:0},{q:"Who is a client?",opts:["A customer of a business","A colleague","A manager","A student"],ans:0},{q:"What is feedback?",opts:["Comments about your work","A new project","A deadline","A presentation"],ans:0},{q:"What is a presentation?",opts:["Showing information to a group","A type of email","A meeting agenda","A contract"],ans:0},{q:"What is a deadline?",opts:["The last day to finish work","A meeting time","A presentation topic","A client name"],ans:0}]},
+  { num:77, title:"Going to the Cinema", words:["cinema","movie","ticket","seat","screen","popcorn","trailer","genre","showing","subtitles"], patterns:["I want to watch a movie.","Two tickets for the 7 PM showing.","I like action movies."], conv:[["A","Would you like to go to the cinema tonight?"],["B","Yes! What is showing?"],["A","There is a new action movie at 7 PM."],["B","Let's buy tickets online."],["A","Should we get popcorn?"],["B","Of course!"]], practice:["Write: My favorite movie genre is ___.","Say: Two tickets for ___ please.","Name 5 movie genres."], mcq:[{q:"Where do you watch movies on a big screen?",opts:["Cinema","Library","Market","Park"],ans:0},{q:"What is a genre?",opts:["A type of movie like action or comedy","A ticket","A seat","A showing"],ans:0},{q:"What are the words shown at the bottom of a movie screen?",opts:["Subtitles","Trailer","Seat","Ticket"],ans:0},{q:"What is a trailer?",opts:["A short preview of a movie","A full movie","A type of popcorn","A cinema seat"],ans:0},{q:"What do you buy to enter the cinema?",opts:["Ticket","Popcorn","Seat","Screen"],ans:0}]},
+  { num:78, title:"Writing a Simple Letter", words:["Dear","Sincerely","Yours faithfully","To whom it may concern","subject","paragraph","signature","address","date","formal"], patterns:["Dear Mr. Smith,","I am writing to ask about...","Yours sincerely,"], conv:[["A","How do I start a formal letter?"],["B","Write 'Dear' and the person's name."],["A","And how do I end it?"],["B","Write 'Yours sincerely' and your name."],["A","What if I don't know the name?"],["B","Write 'To Whom It May Concern'."]], practice:["Write a short formal letter to a hotel.","Say the parts of a letter: date, greeting, body, closing.","Write: Dear ___, I am writing to ___."], mcq:[{q:"How do you start a formal letter?",opts:["Dear Mr./Ms. Smith","Hello there","Hey!","Good morning friend"],ans:0},{q:"How do you end a formal letter?",opts:["Yours sincerely","See you","Bye","Later"],ans:0},{q:"What do you use if you don't know the recipient's name?",opts:["To Whom It May Concern","Dear Friend","Hello Person","Hi There"],ans:0},{q:"What is a signature?",opts:["Your handwritten name at the end","Your address","Your date","Your subject"],ans:0},{q:"What comes first in a formal letter?",opts:["Date and address","The signature","The closing","The body"],ans:0}]},
+  { num:79, title:"Talking About Experiences", words:["have you ever","been","tried","seen","heard","experience","once","twice","never","before"], patterns:["Have you ever been to Paris?","I have tried sushi once.","I have never seen snow."], conv:[["A","Have you ever been abroad?"],["B","Yes, I went to Spain once."],["A","Have you ever tried Spanish food?"],["B","Yes! I loved it."],["A","I have never been abroad."],["B","You should try it!"]], practice:["Write: I have never ___.","Say: Have you ever ___?","Write: I have tried ___ once / twice."], mcq:[{q:"How do you ask about past experiences?",opts:["Have you ever...?","Did you will...?","Do you ever...?","Are you ever...?"],ans:0},{q:"What does 'never' mean?",opts:["Not at any time","Sometimes","Always","Often"],ans:0},{q:"What does 'once' mean?",opts:["One time","Two times","Many times","Never"],ans:0},{q:"Complete: I have ___ visited Japan.",opts:["never","not","did","was"],ans:0},{q:"What tense is used with 'Have you ever'?",opts:["Present perfect","Simple past","Future","Simple present"],ans:0}]},
+  { num:80, title:"Describing Your Job", words:["responsible for","manage","handle","report to","duties","salary","part-time","full-time","shift","experience"], patterns:["I am responsible for customer service.","I report to the manager.","I work full-time."], conv:[["A","What do you do at work?"],["B","I manage a small team of five people."],["A","Do you work full-time?"],["B","Yes, 9 to 5, Monday to Friday."],["A","What are your main duties?"],["B","I handle reports and client emails."]], practice:["Write: I am responsible for ___.","Say: My main duties are ___.","Write: I report to the ___."], mcq:[{q:"What does 'responsible for' mean?",opts:["In charge of a task","Not working","On holiday","Working part-time"],ans:0},{q:"What is a salary?",opts:["Monthly pay for work","A job duty","A shift","An experience"],ans:0},{q:"What is part-time work?",opts:["Working fewer hours than full-time","Working every day","Working nights only","Managing a team"],ans:0},{q:"What is a shift?",opts:["A set period of work time","A salary","A duty","A report"],ans:0},{q:"What does 'manage' mean?",opts:["To be in charge of people or tasks","To clean the office","To write emails only","To attend meetings only"],ans:0}]},
+  { num:81, title:"Talking About Your City", words:["city","center","suburb","traffic","park","museum","cinema","hospital","school","busy"], patterns:["My city is very busy.","The museum is in the city center.","I live in the suburbs."], conv:[["A","What is your city like?"],["B","It is a big and busy city."],["A","What is there to do?"],["B","There are museums, parks, and cinemas."],["A","Is the traffic bad?"],["B","Yes, especially in the morning."]], practice:["Write 3 sentences about your city.","Name 5 places in a city.","Say: I like my city because ___."], mcq:[{q:"What is the center of a city?",opts:["The main central area","The countryside","A suburb","A village"],ans:0},{q:"What is a suburb?",opts:["An area outside the city center","The city center","A museum","A park"],ans:0},{q:"Where do you see art and history?",opts:["Museum","Cinema","Park","Market"],ans:0},{q:"What causes slow movement on roads?",opts:["Traffic","Park","Museum","School"],ans:0},{q:"What is a city?",opts:["A large populated urban area","A small village","A farm","A forest"],ans:0}]},
+  { num:82, title:"Applying for a Job", words:["apply","CV","resume","interview","cover letter","qualification","reference","hire","position","candidate"], patterns:["I want to apply for the job.","I need to write my CV.","The interview is on Monday."], conv:[["A","Did you see the job posting?"],["B","Yes! I want to apply."],["A","Have you updated your CV?"],["B","Yes, I also wrote a cover letter."],["A","Great! When is the interview?"],["B","Next Tuesday at 10 AM."]], practice:["Write the sections of a CV.","Say: I am applying for the position of ___.","Write: My qualifications include ___."], mcq:[{q:"What document lists your work history and skills?",opts:["CV / Resume","Cover letter","Reference","Interview"],ans:0},{q:"What do you write to explain why you want a job?",opts:["Cover letter","CV","Resume","Reference"],ans:0},{q:"Who is a candidate?",opts:["Someone applying for a job","A manager","A colleague","A client"],ans:0},{q:"What is a reference?",opts:["Someone who speaks about your work","Your salary","Your job title","Your CV"],ans:0},{q:"What happens after you send your CV?",opts:["Interview","Hiring immediately","Writing another CV","No next step"],ans:0}]},
+  { num:83, title:"Money and Finance", words:["income","expense","budget","save","spend","borrow","lend","invest","debt","profit"], patterns:["I need to save more money.","My monthly expenses are high.","I have a personal budget."], conv:[["A","Do you have a budget?"],["B","Yes, I track all my income and expenses."],["A","That is smart. Do you save money?"],["B","Yes, I save 20% of my income every month."],["A","I should do that too."],["B","Start small. Every little helps!"]], practice:["Write: My income is ___ and my expenses are ___.","Say: I save ___ per month.","Name 5 money words."], mcq:[{q:"What is income?",opts:["Money you earn","Money you spend","Money you borrow","Money you invest"],ans:0},{q:"What are expenses?",opts:["Things you spend money on","Things you earn","Things you save","Things you invest"],ans:0},{q:"What is a budget?",opts:["A plan for spending and saving","A type of investment","A loan","An expense"],ans:0},{q:"What is debt?",opts:["Money you owe","Money you have","Money you save","Money you earn"],ans:0},{q:"What does invest mean?",opts:["To put money in something to earn more","To spend freely","To borrow money","To save in a piggy bank"],ans:0}]},
+  { num:84, title:"Apologizing and Forgiving", words:["apologize","sorry","forgive","mistake","accident","fault","excuse","accept","move on","sincere"], patterns:["I am sorry for my mistake.","Please forgive me.","It was an accident."], conv:[["A","I am really sorry I was late."],["B","It is okay. What happened?"],["A","There was a lot of traffic. It was not my fault."],["B","I accept your apology."],["A","Thank you for being so understanding."],["B","Let's move on!"]], practice:["Write a sincere apology to a friend.","Say: I am sorry for ___.","Practice accepting an apology: That's okay."], mcq:[{q:"What do you say when you do something wrong?",opts:["I am sorry","Thank you","Hello","Goodbye"],ans:0},{q:"What does forgive mean?",opts:["To stop being angry at someone","To apologize","To make a mistake","To accept a gift"],ans:0},{q:"What is a sincere apology?",opts:["A truly honest apology","A quick apology","A funny apology","A written apology only"],ans:0},{q:"What does 'it was an accident' mean?",opts:["I did not mean to do it","I did it on purpose","I am not sorry","I do not care"],ans:0},{q:"What does 'move on' mean?",opts:["To stop thinking about a problem and continue","To apologize again","To ignore someone","To make a mistake"],ans:0}]},
+  { num:85, title:"Studying English", words:["vocabulary","grammar","pronunciation","practice","fluent","beginner","advanced","spelling","reading","writing"], patterns:["I am learning English vocabulary.","Practice makes perfect.","I want to be fluent."], conv:[["A","How is your English?"],["B","I am at a beginner level."],["A","What do you find difficult?"],["B","Pronunciation is hard for me."],["A","Practice every day. It will improve!"],["B","I also need to learn more vocabulary."]], practice:["Write 5 new English words today.","Say a sentence using a new word.","Write: I want to improve my English ___."], mcq:[{q:"What is vocabulary?",opts:["A collection of words you know","Grammar rules","Spelling rules","Pronunciation"],ans:0},{q:"What is grammar?",opts:["Rules of a language","New words","Spelling","Reading"],ans:0},{q:"What does fluent mean?",opts:["Able to speak easily and well","Just a beginner","Still learning","Can only read"],ans:0},{q:"What is pronunciation?",opts:["How you say words","How you spell words","How you read words","How you write words"],ans:0},{q:"What is the best way to improve English?",opts:["Practice every day","Study once a week","Read only","Never speak"],ans:0}]},
+  { num:86, title:"Talking About Relationships", words:["friend","best friend","partner","colleague","neighbor","relative","close","trust","support","communicate"], patterns:["She is my best friend.","We communicate every day.","I trust my partner completely."], conv:[["A","Who do you trust the most?"],["B","My best friend. We have known each other for 10 years."],["A","What makes a good friendship?"],["B","Trust, communication, and support."],["A","That is a great answer!"]], practice:["Write: My best friend is ___.","Say: I trust ___ because ___.","Describe a person you are close to."], mcq:[{q:"What is a relative?",opts:["A family member","A colleague","A neighbor","A stranger"],ans:0},{q:"What is trust in a relationship?",opts:["Believing someone is honest and reliable","Knowing someone's address","Working together","Living near someone"],ans:0},{q:"What does support mean in a relationship?",opts:["To help someone","To ignore someone","To compete with someone","To argue with someone"],ans:0},{q:"What is a colleague?",opts:["Someone you work with","Your neighbor","Your relative","Your best friend"],ans:0},{q:"What makes friendships strong?",opts:["Trust and communication","Distance","Arguments","No contact"],ans:0}]},
+  { num:87, title:"Numbers in Real Life", words:["price","percentage","discount","total","half","quarter","double","average","measure","count"], patterns:["The total is fifty dollars.","There is a 10% discount.","Half of 20 is 10."], conv:[["A","What is the total price?"],["B","It is forty dollars."],["A","Is there a discount?"],["B","Yes, there is a 25% discount today."],["A","So I pay thirty dollars?"],["B","Exactly!"]], practice:["Calculate: 10% of 100 = ___.","Write: Half of 40 is ___.","Say: The total is ___."], mcq:[{q:"What is 50% of 100?",opts:["50","25","75","10"],ans:0},{q:"What is double 15?",opts:["30","20","25","10"],ans:0},{q:"What is a quarter of 40?",opts:["10","20","15","5"],ans:0},{q:"What is the total of 25 + 35?",opts:["60","50","70","80"],ans:0},{q:"What is a 10% discount on $50?",opts:["$5","$10","$15","$20"],ans:0}]},
+  { num:88, title:"Road Safety", words:["road","traffic light","crosswalk","speed","seatbelt","helmet","pedestrian","signal","overtake","lane"], patterns:["Always wear your seatbelt.","Stop at the red traffic light.","Use the crosswalk to cross the road."], conv:[["A","Be careful crossing the road."],["B","I always use the crosswalk."],["A","And look both ways!"],["B","Of course. I also wait for the green light."],["A","And wear your helmet on the bicycle!"],["B","Yes, safety first!"]], practice:["Write 3 road safety rules.","Say: Always ___ on the road.","Name the colors of a traffic light and what they mean."], mcq:[{q:"What do you wear to stay safe in a car?",opts:["Seatbelt","Helmet","Hat","Gloves"],ans:0},{q:"Where should you cross the road?",opts:["Crosswalk","Anywhere","In the middle","Behind a bus"],ans:0},{q:"What does a red traffic light mean?",opts:["Stop","Go","Slow down","Turn"],ans:0},{q:"What should cyclists wear for safety?",opts:["Helmet","Seatbelt","Coat","Gloves"],ans:0},{q:"What is a pedestrian?",opts:["A person walking on the road","A driver","A cyclist","A passenger"],ans:0}]},
+  { num:89, title:"Social Media", words:["post","follow","like","share","comment","profile","photo","video","platform","privacy"], patterns:["I posted a photo online.","Please follow my account.","My privacy settings are private."], conv:[["A","Did you see my post?"],["B","Yes! I liked and shared it."],["A","Thank you! Did you leave a comment?"],["B","Yes. I said it was beautiful."],["A","I need to check my privacy settings."],["B","That is important. Be careful online."]], practice:["Write: I use social media to ___.","Name 3 social media platforms.","Say: I post ___ on my profile."], mcq:[{q:"What do you do when you press the 'like' button?",opts:["Show you like the post","Share the post","Comment on the post","Delete the post"],ans:0},{q:"What is a profile?",opts:["Your personal page on social media","A photo","A video","A comment"],ans:0},{q:"What is privacy?",opts:["Keeping your information controlled","Sharing everything","Posting daily","Following people"],ans:0},{q:"What does 'share' mean on social media?",opts:["To send a post to others","To like a post","To delete a post","To comment on a post"],ans:0},{q:"What is a social media platform?",opts:["A website or app for sharing content","A shopping website","A news channel","A bank website"],ans:0}]},
+  { num:90, title:"Planning a Trip", words:["itinerary","hotel","flight","tour","budget","guide","camera","luggage","insurance","currency"], patterns:["I am planning a trip to Japan.","I need to book my flight and hotel.","What currency do they use?"], conv:[["A","I am planning a trip to Thailand."],["B","How exciting! Have you booked your flight?"],["A","Yes! I am looking at hotels now."],["B","Do you have travel insurance?"],["A","Not yet. I should get that."],["B","Yes, it is very important."]], practice:["Write your dream trip itinerary.","Say: I need to bring ___ on my trip.","Write: My trip budget is ___."], mcq:[{q:"What is an itinerary?",opts:["A plan for your trip","A type of hotel","A flight ticket","A passport"],ans:0},{q:"Why is travel insurance important?",opts:["It protects you if something goes wrong","It is cheaper","It books your hotel","It gives you currency"],ans:0},{q:"What do you need to pay in another country?",opts:["Local currency","Your home currency only","Dollars always","Your card only"],ans:0},{q:"What is a tour?",opts:["An organized trip to visit places","A type of hotel","A flight","A passport"],ans:0},{q:"What do you carry your clothes in when traveling?",opts:["Luggage","Camera","Guide","Insurance"],ans:0}]},
+  { num:91, title:"Health and Nutrition", words:["nutrition","protein","carbohydrate","fat","vitamin","mineral","calorie","balanced","diet","healthy"], patterns:["Eat a balanced diet.","Vegetables are full of vitamins.","Protein helps build muscles."], conv:[["A","Do you eat healthily?"],["B","I try to. I eat lots of vegetables and fruit."],["A","Do you eat protein?"],["B","Yes, fish and chicken are my favorites."],["A","Do you limit sugar?"],["B","Yes. Too much sugar is not good."]], practice:["Write a healthy daily menu.","Say: ___ is full of ___ (vitamins, protein).","Name 3 healthy foods."], mcq:[{q:"What nutrient is found in meat and eggs?",opts:["Protein","Carbohydrate","Fat","Vitamin"],ans:0},{q:"What gives you energy quickly?",opts:["Carbohydrate","Protein","Mineral","Vitamin"],ans:0},{q:"What helps your body work properly and comes from fruits?",opts:["Vitamins","Fats","Proteins","Carbohydrates"],ans:0},{q:"What is a balanced diet?",opts:["Eating all food groups in the right amounts","Eating only vegetables","Eating only meat","Eating no fat"],ans:0},{q:"How many calories are in a healthy daily diet?",opts:["Around 2000","Around 500","Around 5000","Around 100"],ans:0}]},
+  { num:92, title:"Talking About Dreams and Goals", words:["dream","goal","ambition","achieve","succeed","challenge","effort","believe","possible","future"], patterns:["My dream is to become a doctor.","I believe I can achieve my goals.","Hard work and effort lead to success."], conv:[["A","What is your biggest dream?"],["B","I want to start my own business one day."],["A","What is your goal this year?"],["B","To save money and improve my English."],["A","I believe you can do it!"],["B","Thank you! I just need to put in more effort."]], practice:["Write: My dream is to ___.","Say: My goal this year is ___.","Say: I believe I can ___."], mcq:[{q:"What is an ambition?",opts:["A strong desire to achieve something","A type of food","A daily routine","A type of job"],ans:0},{q:"What does 'achieve' mean?",opts:["To successfully reach a goal","To dream","To plan","To rest"],ans:0},{q:"What does 'believe' mean?",opts:["To have confidence that something is true","To doubt","To ignore","To forget"],ans:0},{q:"What does 'effort' mean?",opts:["Hard work and energy","A dream","A goal","A challenge"],ans:0},{q:"What is success?",opts:["Achieving your goals","Making mistakes","Giving up","Dreaming only"],ans:0}]},
+  { num:93, title:"The News", words:["news","headline","reporter","story","local","international","event","broadcast","article","journalist"], patterns:["I read the news every morning.","The headline says it will rain.","This is a big international story."], conv:[["A","Did you see the news today?"],["B","Yes, there is a big story about the economy."],["A","Which newspaper?"],["B","I read it online actually."],["A","What was the headline?"],["B","It said: 'Prices Rising Across the Country'."]], practice:["Write a fake headline for today.","Say: I read/watch the news on ___.","Name 2 types of news: local and international."], mcq:[{q:"What is a headline?",opts:["The title of a news story","A reporter","A journalist","An article"],ans:0},{q:"Who writes news articles?",opts:["Journalist","Doctor","Farmer","Teacher"],ans:0},{q:"What is international news?",opts:["News from other countries","News from your city","Weather news","Sports news only"],ans:0},{q:"Where do you often find news articles?",opts:["Newspaper or online","In a book","At the cinema","At a restaurant"],ans:0},{q:"What is a broadcast?",opts:["News sent out on TV or radio","A news article","A journalist","A headline"],ans:0}]},
+  { num:94, title:"Fixing Things at Home", words:["repair","broken","fix","plumber","electrician","leak","replace","tool","drill","paint"], patterns:["The tap is leaking.","I need to call a plumber.","Can you fix the broken chair?"], conv:[["A","The tap is leaking!"],["B","I will call a plumber."],["A","Can you fix it yourself?"],["B","I do not have the right tools."],["A","I have a wrench. Shall we try?"],["B","Okay, let's try!"]], practice:["Write: The ___ is broken. I need to ___.","Name 3 tools for home repairs.","Say: I need to call a ___ to fix the ___."], mcq:[{q:"Who fixes water pipes?",opts:["Plumber","Electrician","Painter","Carpenter"],ans:0},{q:"Who fixes electrical problems?",opts:["Electrician","Plumber","Painter","Builder"],ans:0},{q:"What is a leak?",opts:["Water coming out of a pipe","A broken light","A damaged wall","A missing tool"],ans:0},{q:"What do you use to make holes in a wall?",opts:["Drill","Wrench","Paintbrush","Hammer"],ans:0},{q:"What does repair mean?",opts:["To fix something broken","To break something","To buy something new","To throw something away"],ans:0}]},
+  { num:95, title:"Planning a Party", words:["invitation","decoration","guest","host","venue","cake","music","game","theme","celebrate"], patterns:["I am hosting a party.","The venue is the community hall.","The theme is tropical."], conv:[["A","I am planning a birthday party!"],["B","How exciting! What is the theme?"],["A","Tropical. With bright decorations."],["B","How many guests?"],["A","About twenty people."],["B","I will help you with the invitations!"]], practice:["Write an invitation for a party.","Say: The party is at ___ on ___.","Name 5 things you need for a party."], mcq:[{q:"Who organizes and runs a party?",opts:["Host","Guest","Venue","Decorator"],ans:0},{q:"What is a venue?",opts:["The place where the party is held","The theme of the party","The music at the party","The cake"],ans:0},{q:"What do you send to invite people?",opts:["Invitation","Decoration","Cake","Game"],ans:0},{q:"What is a theme?",opts:["The main idea or style of the party","The guest list","The venue","The food"],ans:0},{q:"Who comes to a party?",opts:["Guests","Hosts","Decorators","Organizers"],ans:0}]},
+  { num:96, title:"Talking to a Landlord", words:["landlord","tenant","contract","deposit","notice","utilities","maintenance","renew","evict","complaint"], patterns:["I need to renew my contract.","There is a maintenance issue.","I gave one month's notice."], conv:[["A","Hello, I have a complaint about the boiler."],["B","I am sorry to hear that. When did it break?"],["A","Yesterday evening."],["B","I will send a repairman tomorrow."],["A","Thank you. Also, my contract ends next month."],["B","Would you like to renew it?"]], practice:["Write a complaint to your landlord.","Say: I want to renew my contract for ___ months.","Name 3 tenant rights."], mcq:[{q:"Who owns the property you rent?",opts:["Landlord","Tenant","Agent","Neighbor"],ans:0},{q:"What do you pay before moving in?",opts:["Deposit","Rent","Notice","Utilities"],ans:0},{q:"What is a notice?",opts:["An official statement that you are leaving","A rent payment","A complaint","A contract"],ans:0},{q:"What are utilities?",opts:["Electricity, gas, and water bills","Rent payments","Maintenance costs","Deposit"],ans:0},{q:"What does renew mean?",opts:["To extend or continue a contract","To end a contract","To pay a deposit","To move out"],ans:0}]},
+  { num:97, title:"Giving and Receiving Compliments", words:["compliment","wonderful","impressive","talented","kind","generous","appreciate","thank you","so kind","deserve"], patterns:["You look wonderful today!","That was an impressive presentation.","You are very talented."], conv:[["A","I love your jacket! It looks great on you."],["B","Thank you so much! That is so kind of you."],["A","And you speak English so well!"],["B","I appreciate that. I have been practicing a lot."],["A","Your hard work really shows."],["B","Thank you! You deserve a compliment too - you are a great friend."]], practice:["Give a compliment to a friend or colleague.","Write: You are very ___ at ___.","Practice receiving: Thank you so much!"], mcq:[{q:"What is a compliment?",opts:["A positive comment about someone","A complaint","An apology","A question"],ans:0},{q:"What do you say when someone compliments you?",opts:["Thank you!","Sorry!","Excuse me!","Goodbye!"],ans:0},{q:"What does generous mean?",opts:["Willing to give and share","Very loud","Very fast","Very tall"],ans:0},{q:"What does talented mean?",opts:["Naturally good at something","Very generous","Very kind","Very quiet"],ans:0},{q:"What does appreciate mean?",opts:["To be grateful for something","To ignore something","To complain about something","To ask for something"],ans:0}]},
+  { num:98, title:"Talking About Learning English", words:["progress","improve","confident","nervous","mistake","correct","native speaker","accent","listen","speak"], patterns:["I am making progress.","I feel more confident now.","Making mistakes helps you learn."], conv:[["A","How is your English coming along?"],["B","I am improving slowly."],["A","Do you feel confident speaking?"],["B","Sometimes I get nervous."],["A","That is normal! Just practice."],["B","Yes, making mistakes is part of learning."]], practice:["Write: I have improved my ___ in English.","Say: I feel confident / nervous when ___.","Name 3 ways you practice English."], mcq:[{q:"What shows you are getting better at something?",opts:["Progress","Mistake","Nervous","Accent"],ans:0},{q:"What does confident mean?",opts:["Feeling sure and positive about yourself","Feeling scared","Feeling tired","Feeling unsure"],ans:0},{q:"What is a native speaker?",opts:["Someone who learned a language from birth","A language learner","A teacher","A student"],ans:0},{q:"What does accent mean?",opts:["The way you pronounce words based on your background","Grammar rules","Vocabulary","Spelling"],ans:0},{q:"What helps you improve a language most?",opts:["Regular practice","Reading once a month","Never speaking","Avoiding mistakes"],ans:0}]},
+  { num:99, title:"Review – Everyday English", words:["greeting","introduction","direction","request","suggestion","opinion","complaint","question","answer","response"], patterns:["Hello, how are you?","Could you help me, please?","I think this is a good idea."], conv:[["A","Good morning! How are you?"],["B","I am fine, thank you. And you?"],["A","Very well. Could you help me?"],["B","Of course! What do you need?"],["A","Can you suggest a good restaurant nearby?"],["B","Yes, there is a great Italian place on Park Street!"]], practice:["Use each word in a sentence.","Have a full conversation using all 10 words.","Write a short story using 5 words from the list."], mcq:[{q:"What is a greeting?",opts:["Hello or Good morning","A request","A complaint","A direction"],ans:0},{q:"What is a response?",opts:["An answer to something said","A question","A complaint","A greeting"],ans:0},{q:"What is a suggestion?",opts:["An idea you offer","An order","A question","A direction"],ans:0},{q:"What is a complaint?",opts:["A statement about something wrong","A greeting","A question","A direction"],ans:0},{q:"What is an opinion?",opts:["A personal view","A fact","A question","A request"],ans:0}]},
+  { num:100, title:"Final Review – You Can Speak English!", words:["congratulations","achieve","proud","journey","progress","fluent","continue","practice","communicate","success"], patterns:["Congratulations on finishing the course!","You have made great progress.","Continue to practice every day."], conv:[["A","Congratulations! You finished all 100 lessons!"],["B","Thank you! I am so proud of myself."],["A","Your progress has been amazing."],["B","I feel more confident communicating in English now."],["A","Keep practicing and you will be fluent!"],["B","I will! Thank you for everything."]], practice:["Write 3 things you have learned in this course.","Give a short speech: My English journey has been ___.","Write: I am proud because I can now ___ in English."], mcq:[{q:"What does congratulations mean?",opts:["Well done for your achievement","Goodbye","Good morning","Thank you"],ans:0},{q:"What does proud mean?",opts:["Feeling happy about your achievement","Feeling sad","Feeling tired","Feeling hungry"],ans:0},{q:"What does fluent mean?",opts:["Speaking a language very well","Just starting to learn","Being a native speaker only","Knowing only grammar"],ans:0},{q:"What is a journey?",opts:["A long process or trip","A quick task","A single lesson","A grammar rule"],ans:0},{q:"What is the best way to stay fluent?",opts:["Continue to practice","Stop learning","Only read","Never speak"],ans:0}]}
+];
+
+// ─── STATE ───────────────────────────────────────
+const PASS_SCORE = 4; // out of 5
+let state = JSON.parse(localStorage.getItem('engState') || 'null') || {
+  completed: [], // lesson indices that are passed
+  unlocked: [0]  // lesson indices unlocked
+};
+function save() { localStorage.setItem('engState', JSON.stringify(state)); }
+
+function isUnlocked(idx) { return state.unlocked.includes(idx); }
+function isCompleted(idx) { return state.completed.includes(idx); }
+
+function unlockNext(idx) {
+  const next = idx + 1;
+  if (next < LESSONS.length && !isUnlocked(next)) {
+    state.unlocked.push(next);
+  }
+}
+
+// ─── PROGRESS ────────────────────────────────────
+function updateProgress() {
+  const pct = (state.completed.length / LESSONS.length) * 100;
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-text').textContent = state.completed.length + ' / ' + LESSONS.length;
+  if (state.completed.length === LESSONS.length) {
+    document.getElementById('completion-banner').classList.add('show');
+  }
+}
+
+// ─── HOME VIEW ───────────────────────────────────
+function renderHome() {
+  document.getElementById('home-view').style.display = 'block';
+  document.getElementById('lesson-view').style.display = 'none';
+  updateProgress();
+  const grid = document.getElementById('lessons-grid');
+  grid.innerHTML = '';
+  LESSONS.forEach((L, i) => {
+    const comp = isCompleted(i);
+    const unlocked = isUnlocked(i);
+    let cls = comp ? 'completed' : unlocked ? 'unlocked' : 'locked';
+    const card = document.createElement('div');
+    card.className = 'lesson-card ' + cls;
+    let statusHTML = '';
+    let badge = '';
+    if (comp) {
+      statusHTML = '<span class="status-icon">✅</span><span style="color:var(--sage)">Completed</span>';
+      badge = '<div class="card-badge badge-check">✓</div>';
+    } else if (!unlocked) {
+      statusHTML = '<span class="status-icon">🔒</span><span style="color:var(--locked)">Locked</span>';
+      badge = '<div class="card-badge badge-lock">🔒</div>';
+    } else {
+      statusHTML = '<span class="status-icon">📖</span><span style="color:var(--teal)">Ready</span>';
+      badge = '<div class="card-badge badge-star">→</div>';
+    }
+    card.innerHTML = `
+      ${badge}
+      <div class="card-num">LESSON ${L.num.toString().padStart(2,'0')}</div>
+      <div class="card-title">${L.title}</div>
+      <div class="card-status">${statusHTML}</div>
+    `;
+    card.onclick = () => {
+      if (!unlocked) { showLocked(); return; }
+      openLesson(i);
+    };
+    grid.appendChild(card);
+  });
+}
+
+function showLocked() {
+  document.getElementById('locked-overlay').classList.add('show');
+}
+function closeLocked() {
+  document.getElementById('locked-overlay').classList.remove('show');
+}
+
+// ─── LESSON VIEW ─────────────────────────────────
+let currentLesson = 0;
+let mcqAnswers = []; // index into shuffledMCQ[qi].opts chosen by user
+let mcqDone = false;
+let shuffledMCQ = []; // per-question: { opts: [...], correctIdx: N }
+
+// Fisher-Yates shuffle of an array copy
+function shuffle(arr) {
+  const a = arr.slice();
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+// Build a shuffled version of every MCQ question for a lesson
+function buildShuffledMCQ(lessonIdx) {
+  return LESSONS[lessonIdx].mcq.map(q => {
+    // q.ans is always 0 (the correct answer text is q.opts[0])
+    const correctText = q.opts[q.ans];
+    const shuffledOpts = shuffle(q.opts);
+    const correctIdx = shuffledOpts.indexOf(correctText);
+    return { opts: shuffledOpts, correctIdx };
+  });
+}
+
+function openLesson(idx) {
+  currentLesson = idx;
+  shuffledMCQ = buildShuffledMCQ(idx);
+  mcqAnswers = new Array(LESSONS[idx].mcq.length).fill(null);
+  mcqDone = false;
+  document.getElementById('home-view').style.display = 'none';
+  document.getElementById('lesson-view').style.display = 'block';
+  renderSidebar();
+  renderLessonMain();
+  window.scrollTo(0, 0);
+}
+
+function goHome() {
+  document.getElementById('home-view').style.display = 'block';
+  document.getElementById('lesson-view').style.display = 'none';
+  renderHome();
+}
+
+function renderSidebar() {
+  const list = document.getElementById('sidebar-list');
+  list.innerHTML = '';
+  LESSONS.forEach((L, i) => {
+    const comp = isCompleted(i);
+    const unlocked = isUnlocked(i);
+    const active = i === currentLesson;
+    let cls = active ? 'si-active' : comp ? 'si-completed' : unlocked ? 'si-unlocked' : 'si-locked';
+    const item = document.createElement('div');
+    item.className = 'sidebar-item ' + cls;
+    item.innerHTML = `<span class="si-num">${L.num}</span><span style="flex:1">${L.title}</span><span class="si-icon">${comp ? '✅' : !unlocked ? '🔒' : active ? '▶' : ''}</span>`;
+    item.onclick = () => {
+      if (!unlocked) { showLocked(); return; }
+      openLesson(i);
+    };
+    list.appendChild(item);
+    if (active) { setTimeout(() => item.scrollIntoView({ block: 'nearest' }), 50); }
+  });
+}
+
+function renderLessonMain() {
+  const L = LESSONS[currentLesson];
+  const main = document.getElementById('lesson-main');
+  const labels = ['a','b','c','d'];
+  const comp = isCompleted(currentLesson);
+
+  let mcqHTML = '';
+  L.mcq.forEach((q, qi) => {
+    const userAns = mcqAnswers[qi];           // index into shuffled opts
+    const sq = shuffledMCQ[qi];              // { opts, correctIdx }
+    const correct = sq.correctIdx;
+    mcqHTML += `<div class="mcq-question" id="mcq-q-${qi}">
+      <div class="mcq-q-text"><span class="mcq-qnum">Q${qi+1}</span> ${q.q}</div>
+      <div class="mcq-options">`;
+    sq.opts.forEach((opt, oi) => {
+      let optCls = '';
+      if (mcqDone || comp) {
+        if (oi === correct) optCls = 'opt-correct';
+        else if (oi === userAns && oi !== correct) optCls = 'opt-wrong';
+      }
+      const selectedStyle = (!mcqDone && !comp && oi === userAns)
+        ? 'style="border-color:var(--gold);background:var(--cream);font-weight:600;"' : '';
+      mcqHTML += `<button class="mcq-option ${optCls}" onclick="selectOpt(${qi},${oi})" ${mcqDone || comp ? 'disabled' : ''} ${selectedStyle}>
+        <span class="opt-label">${labels[oi]}</span>${opt}
+      </button>`;
+    });
+    let msg = '';
+    if (mcqDone || comp) {
+      const answered = userAns !== null;
+      const isRight = userAns === correct;
+      const cls = (isRight || (comp && !answered)) ? 'msg-correct' : 'msg-wrong';
+      const text = isRight ? '✓ Correct!' : `✗ Correct answer: ${labels[correct]}) ${sq.opts[correct]}`;
+      msg = `<div class="mcq-result-msg ${cls} show">${comp && !answered ? `✓ Answer: ${labels[correct]}) ${sq.opts[correct]}` : text}</div>`;
+    }
+    mcqHTML += `</div>${msg}</div>`;
+  });
+
+  // Score panel
+  let scoreHTML = '';
+  if (mcqDone) {
+    const correct = mcqAnswers.filter((a, i) => a === shuffledMCQ[i].correctIdx).length;
+    const pass = correct >= PASS_SCORE;
+    scoreHTML = `<div class="mcq-score-panel ${pass ? 'pass' : 'fail'} show">
+      <div class="score-emoji">${pass ? '🎉' : '😅'}</div>
+      <div class="score-title">${pass ? 'Excellent Work!' : 'Keep Practicing!'}</div>
+      <div class="score-nums"><strong>${correct}</strong> / ${L.mcq.length} Correct</div>
+      <div class="score-msg">${pass ? 'You passed! The next lesson is now unlocked.' : 'You need at least ' + PASS_SCORE + ' correct answers to unlock the next lesson.'}</div>
+      ${!pass ? `<button class="btn-retry" onclick="retryMCQ()">🔄 Try Again</button>` : ''}
+      ${pass && currentLesson < LESSONS.length - 1 ? `<button class="btn-next" onclick="openLesson(${currentLesson + 1})">Next Lesson →</button>` : ''}
+      ${pass && currentLesson === LESSONS.length - 1 ? `<button class="btn-next" onclick="goHome()">🏆 Back to Home</button>` : ''}
+    </div>`;
+  } else if (comp) {
+    scoreHTML = `<div class="mcq-score-panel pass show">
+      <div class="score-emoji">✅</div>
+      <div class="score-title">Already Completed!</div>
+      <div class="score-msg">You already passed this lesson. Great job!</div>
+      ${currentLesson < LESSONS.length - 1 ? `<button class="btn-next" onclick="openLesson(${currentLesson + 1})">Next Lesson →</button>` : `<button class="btn-next" onclick="goHome()">🏆 Home</button>`}
+    </div>`;
+  }
+
+  main.innerHTML = `
+    <div class="lesson-header" style="animation: fadeUp 0.3s ease both;">
+      <div class="lesson-num-tag">LESSON ${L.num.toString().padStart(2,'0')} OF 100</div>
+      <div class="lesson-title-main">${L.title}</div>
+      <div class="lesson-subtitle">📝 ${L.words.length} new words · 💬 ${L.patterns.length} sentence patterns · ✅ ${L.mcq.length} questions</div>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-title"><span class="sc-icon" style="background:var(--teal-light)">📝</span>New Words</div>
+      <div class="words-grid">${L.words.map(w => `<span class="word-chip">${w}</span>`).join('')}</div>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-title"><span class="sc-icon" style="background:var(--gold-light)">💬</span>Sentence Patterns</div>
+      <ul class="pattern-list">${L.patterns.map(p => `<li class="pattern-item"><span class="pattern-bullet"></span>${p}</li>`).join('')}</ul>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-title"><span class="sc-icon" style="background:var(--purple-light)">🗣</span>Example Conversation</div>
+      <div class="conv-wrap">${L.conv.map(([s,t]) => `<div class="conv-line"><span class="conv-speaker ${s==='A'?'speaker-a':'speaker-b'}">${s}</span><div class="conv-text">${t}</div></div>`).join('')}</div>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-title"><span class="sc-icon" style="background:var(--sage-light)">✏️</span>Practice</div>
+      <div class="practice-list">${L.practice.map((p,i) => `<div class="practice-item"><span class="practice-num">${i+1}.</span><span>${p}</span></div>`).join('')}</div>
+    </div>
+
+    <div class="section-card">
+      <div class="sc-title"><span class="sc-icon" style="background:var(--coral-light)">✅</span>Quiz – MCQ</div>
+      <div class="mcq-intro">
+        <div class="mcq-intro-icon">🎯</div>
+        <div class="mcq-intro-text">
+          <h4>Answer to Unlock the Next Lesson</h4>
+          <p>You need ${PASS_SCORE} or more correct answers (out of ${L.mcq.length}) to pass and continue.</p>
+        </div>
+      </div>
+      ${mcqHTML}
+      ${!mcqDone && !comp ? `<button class="btn-nav primary" onclick="submitMCQ()" style="margin-top:16px;width:100%;justify-content:center;" id="submit-btn">Submit Answers →</button>` : ''}
+      ${scoreHTML}
+    </div>
+
+    <div class="lesson-nav">
+      <button class="btn-nav" onclick="openLesson(${currentLesson - 1})" ${currentLesson === 0 ? 'disabled' : ''}>← Previous</button>
+      <button class="btn-nav" onclick="goHome()">🏠 All Lessons</button>
+      ${isCompleted(currentLesson) && currentLesson < LESSONS.length - 1 ? `<button class="btn-nav primary" onclick="openLesson(${currentLesson + 1})">Next Lesson →</button>` : ''}
+    </div>
+  `;
+}
+
+function selectOpt(qi, oi) {
+  if (mcqDone || isCompleted(currentLesson)) return;
+  mcqAnswers[qi] = oi;
+  // Refresh button highlights for this question only
+  const qEl = document.getElementById(`mcq-q-${qi}`);
+  const btns = qEl.querySelectorAll('.mcq-option');
+  btns.forEach((b, bi) => {
+    b.style.borderColor = bi === oi ? 'var(--gold)' : '';
+    b.style.background = bi === oi ? 'var(--cream)' : '';
+    b.style.fontWeight = bi === oi ? '600' : '';
+  });
+}
+
+function submitMCQ() {
+  const L = LESSONS[currentLesson];
+  mcqDone = true;
+  const correct = mcqAnswers.filter((a, i) => a === shuffledMCQ[i].correctIdx).length;
+  if (correct >= PASS_SCORE && !isCompleted(currentLesson)) {
+    state.completed.push(currentLesson);
+    unlockNext(currentLesson);
+    save();
+  }
+  renderLessonMain();
+  // scroll to MCQ
+  setTimeout(() => {
+    const scoreEl = document.querySelector('.mcq-score-panel');
+    if (scoreEl) scoreEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 200);
+}
+
+function retryMCQ() {
+  shuffledMCQ = buildShuffledMCQ(currentLesson);
+  mcqAnswers = new Array(LESSONS[currentLesson].mcq.length).fill(null);
+  mcqDone = false;
+  renderLessonMain();
+  document.querySelector('.section-card:last-of-type').scrollIntoView({ behavior: 'smooth' });
+}
+
+// ─── INIT ─────────────────────────────────────────
+renderHome();
+</script>
+</body>
+</html>
