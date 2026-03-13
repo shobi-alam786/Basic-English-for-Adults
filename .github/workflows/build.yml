@@ -17,8 +17,14 @@ jobs:
           java-version: '17'
           distribution: 'temurin'
 
-      - name: Set up Android SDK
+      - name: Setup Android SDK
         uses: android-actions/setup-android@v3
+        env:
+          ACTIONS_ALLOW_UNSECURE_NODE_VERSION: true
+
+      - name: Install build tools
+        run: |
+          sdkmanager "build-tools;34.0.0" "platforms;android-34"
 
       - name: Create project structure
         run: |
@@ -128,7 +134,7 @@ jobs:
           cp icon-144.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
           cp icon-192.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
 
-      - name: Write build.gradle files
+      - name: Write Gradle files
         run: |
           cat > android/build.gradle << 'EOF'
           buildscript {
@@ -150,8 +156,8 @@ jobs:
           include ':app'
           EOF
 
-          echo 'org.gradle.jvmargs=-Xmx2048m
-          android.useAndroidX=true' > android/gradle.properties
+          printf 'org.gradle.jvmargs=-Xmx2048m\nandroid.useAndroidX=true\n' \
+            > android/gradle.properties
 
           cat > android/app/build.gradle << 'EOF'
           plugins { id 'com.android.application' }
@@ -178,7 +184,7 @@ jobs:
           }
           EOF
 
-      - name: Write gradle wrapper
+      - name: Write Gradle wrapper
         run: |
           mkdir -p android/gradle/wrapper
           cat > android/gradle/wrapper/gradle-wrapper.properties << 'EOF'
@@ -189,10 +195,16 @@ jobs:
           zipStorePath=wrapper/dists
           EOF
 
+          curl -sL https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradle/wrapper/gradle-wrapper.jar \
+            -o android/gradle/wrapper/gradle-wrapper.jar
+
+          curl -sL https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradlew \
+            -o android/gradlew
+          chmod +x android/gradlew
+
       - name: Build debug APK
         working-directory: android
-        run: |
-          gradle assembleDebug
+        run: ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
