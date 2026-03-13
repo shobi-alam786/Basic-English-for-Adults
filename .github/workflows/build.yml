@@ -29,7 +29,7 @@ jobs:
           mv $HOME/android-sdk/cmdline-tools/cmdline-tools $HOME/android-sdk/cmdline-tools/latest
           export ANDROID_HOME=$HOME/android-sdk
           export PATH=$PATH:$ANDROID_HOME/cmdline-tools/latest/bin:$ANDROID_HOME/platform-tools
-          yes | sdkmanager --licenses > /dev/null 2>&1
+          yes | sdkmanager --licenses
           sdkmanager "platforms;android-34" "build-tools;34.0.0"
           echo "ANDROID_HOME=$HOME/android-sdk" >> $GITHUB_ENV
           echo "$HOME/android-sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
@@ -140,30 +140,37 @@ jobs:
       - name: Write Gradle files
         run: |
           cat > android/build.gradle << 'EOF'
-          buildscript {
-            repositories { google(); mavenCentral() }
-            dependencies { classpath 'com.android.tools.build:gradle:8.2.2' }
+          plugins {
+            id 'com.android.application' version '8.2.2' apply false
           }
-          allprojects { repositories { google(); mavenCentral() } }
           EOF
 
           cat > android/settings.gradle << 'EOF'
           pluginManagement {
-            repositories { google(); mavenCentral(); gradlePluginPortal() }
+            repositories { 
+              google()
+              mavenCentral()
+              gradlePluginPortal()
+            }
           }
           dependencyResolutionManagement {
             repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-            repositories { google(); mavenCentral() }
+            repositories { 
+              google()
+              mavenCentral()
+            }
           }
           rootProject.name = "BasicEnglish"
           include ':app'
           EOF
 
-          printf 'org.gradle.jvmargs=-Xmx2048m\nandroid.useAndroidX=true\n' \
+          printf 'org.gradle.jvmargs=-Xmx2048m\nandroid.useAndroidX=true\nandroid.enableJetifier=true\n' \
             > android/gradle.properties
 
           cat > android/app/build.gradle << 'EOF'
-          plugins { id 'com.android.application' }
+          plugins { 
+            id 'com.android.application'
+          }
           android {
             namespace 'com.basicenglish.app'
             compileSdk 34
@@ -175,7 +182,9 @@ jobs:
               versionName "1.0"
             }
             buildTypes {
-              debug { debuggable true }
+              release {
+                minifyEnabled false
+              }
             }
             compileOptions {
               sourceCompatibility JavaVersion.VERSION_17
@@ -195,9 +204,12 @@ jobs:
           zipStorePath=wrapper/dists
           EOF
 
-          wget -q https://raw.githubusercontent.com/gradle/gradle/v8.4.0/gradlew \
-            -O android/gradlew
-          chmod +x android/gradlew
+      - name: Setup Gradle wrapper
+        working-directory: android
+        run: |
+          wget -q https://raw.githubusercontent.com/gradle/gradle/v8.4/gradle/wrapper/gradle-wrapper.jar -O gradle/wrapper/gradle-wrapper.jar
+          wget -q https://raw.githubusercontent.com/gradle/gradle/v8.4/gradlew -O gradlew
+          chmod +x gradlew
 
       - name: Build debug APK
         working-directory: android
